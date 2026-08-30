@@ -16,10 +16,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#F6F2EA" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#151210" media="(prefers-color-scheme: dark)">
-<link rel="preload" href="/assets/fonts/newsreader-600.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/sourcesans3-400.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0B" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/app.css">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -40,23 +39,23 @@ $head
 <body class="$bodyclass">
 <a class="skip" href="#main">Hoppa till innehåll</a>
 <header class="site-head"><div class="wrap">
-  <a class="brand" href="/">Lediga dagarna</a>
-  <nav class="nav">
-    <a href="/klamdagar/2026/">Klämdagar</a>
-    <a href="/skollov/2026/">Skollov</a>
-    <a href="/kalender/2026/1/">Kalender</a>
+  <a class="brand" href="/">ledigadagarna<span class="tld">.se</span></a>
+  <button class="iconbtn burger" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Meny"><span></span><span></span><span></span></button>
+  <nav class="nav" id="nav">
+    <a href="/">Röda dagar</a>
+    <a href="/klamdagar/$year/">Klämdagar</a>
+    <a href="/skollov/$year/">Skollov</a>
+    <a href="/kalender/$year/$month/">Kalender</a>
   </nav>
   <button class="iconbtn" id="theme-toggle" type="button" aria-label="Byt mellan ljust och mörkt läge">☾</button>
 </div></header>
 <main id="main">
 $body
 </main>
-<footer class="site-foot"><div class="wrap"><nav>
-  <a href="/om/">Om</a>
-  <a href="/om/#kallor">Källor</a>
-  <a href="/integritetspolicy/">Integritetspolicy</a>
-  <button class="linklike" id="cmp-reopen" type="button" hidden>Cookieinställningar</button>
-</nav></div></footer>
+<footer class="site-foot"><div class="wrap">
+  <p>Uppdaterad $updated · Helgdagar enligt lag (1989:253) om allmänna helgdagar.</p>
+  <nav><button class="linklike" id="cmp-reopen" type="button" hidden>Cookieinställningar</button><a href="/om/">Om</a><a href="/om/#kallor">Källor</a><a href="/integritetspolicy/">Integritetspolicy</a></nav>
+</div></footer>
 <script src="/assets/app.js"></script>
 </body>
 </html>

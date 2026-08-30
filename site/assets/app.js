@@ -99,3 +99,23 @@
     }, 500);
   }
 })();
+
+/* ---- ledigadagarna: nav, live countdowns, today ---------------------- */
+(function () {
+  'use strict';
+  var nav = document.getElementById('nav'), btn = document.getElementById('nav-toggle');
+  if (btn && nav) btn.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  // Pages are cached; correct server-rendered countdowns from the client clock.
+  var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  Array.prototype.forEach.call(document.querySelectorAll('[data-countdown]'), function (el) {
+    var p = el.dataset.countdown.split('-'), target = new Date(+p[0], p[1] - 1, +p[2]);
+    var n = Math.round((target - today) / 86400000);
+    el.textContent = n === 0 ? 'idag' : n > 0 ? 'om ' + n + ' dagar' : 'för ' + (-n) + ' dagar sedan';
+  });
+  var iso = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  var cell = document.querySelector('[data-date="' + iso + '"]');
+  if (cell) { cell.classList.add('idag'); cell.setAttribute('aria-current', 'date'); }
+})();
