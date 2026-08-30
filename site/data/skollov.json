@@ -1,28 +1,93 @@
 {
   "_note": "Sportlov och höstlov är fasta veckor per län (ISO-vecka) och gäller alla år. Påsklov, sommarlov och jullov sätts av varje kommun och publiceras inte här. Verifiera sportlovsveckorna mot Skolverket/länsstyrelserna en gång per år.",
-  "_verified": false,
+  "_verified": "2026-08-30 — kontrollerat mot dennavecka.se, kulturview.se, karlstad.se (v9), eskilstuna.se (v8). Kommuner kan avvika; kontrollera årligen.",
   "hostlov": 44,
   "lan": {
-    "blekinge":        {"namn": "Blekinge",        "sportlov": 8},
-    "dalarna":         {"namn": "Dalarna",         "sportlov": 9},
-    "gotland":         {"namn": "Gotland",         "sportlov": 9},
-    "gavleborg":       {"namn": "Gävleborg",       "sportlov": 9},
-    "halland":         {"namn": "Halland",         "sportlov": 7},
-    "jamtland":        {"namn": "Jämtland",        "sportlov": 10},
-    "jonkoping":       {"namn": "Jönköping",       "sportlov": 7},
-    "kalmar":          {"namn": "Kalmar",          "sportlov": 8},
-    "kronoberg":       {"namn": "Kronoberg",       "sportlov": 8},
-    "norrbotten":      {"namn": "Norrbotten",      "sportlov": 10},
-    "skane":           {"namn": "Skåne",           "sportlov": 8},
-    "stockholm":       {"namn": "Stockholm",       "sportlov": 9},
-    "sodermanland":    {"namn": "Södermanland",    "sportlov": 7},
-    "uppsala":         {"namn": "Uppsala",         "sportlov": 8},
-    "varmland":        {"namn": "Värmland",        "sportlov": 7},
-    "vasterbotten":    {"namn": "Västerbotten",    "sportlov": 10},
-    "vasternorrland":  {"namn": "Västernorrland",  "sportlov": 10},
-    "vastmanland":     {"namn": "Västmanland",     "sportlov": 9},
-    "vastra-gotaland": {"namn": "Västra Götaland", "sportlov": 7},
-    "orebro":          {"namn": "Örebro",          "sportlov": 8},
-    "ostergotland":    {"namn": "Östergötland",    "sportlov": 7}
+    "blekinge": {
+      "namn": "Blekinge",
+      "sportlov": 8
+    },
+    "dalarna": {
+      "namn": "Dalarna",
+      "sportlov": 9
+    },
+    "gotland": {
+      "namn": "Gotland",
+      "sportlov": 9
+    },
+    "gavleborg": {
+      "namn": "Gävleborg",
+      "sportlov": 9,
+      "not": "Gästrikland v. 9, Hälsingland v. 10"
+    },
+    "halland": {
+      "namn": "Halland",
+      "sportlov": 8,
+      "not": "Kungsbacka följer Göteborg, v. 7"
+    },
+    "jamtland": {
+      "namn": "Jämtland",
+      "sportlov": 10
+    },
+    "jonkoping": {
+      "namn": "Jönköping",
+      "sportlov": 7
+    },
+    "kalmar": {
+      "namn": "Kalmar",
+      "sportlov": 8
+    },
+    "kronoberg": {
+      "namn": "Kronoberg",
+      "sportlov": 8
+    },
+    "norrbotten": {
+      "namn": "Norrbotten",
+      "sportlov": 10
+    },
+    "skane": {
+      "namn": "Skåne",
+      "sportlov": 8
+    },
+    "stockholm": {
+      "namn": "Stockholm",
+      "sportlov": 9
+    },
+    "sodermanland": {
+      "namn": "Södermanland",
+      "sportlov": 8
+    },
+    "uppsala": {
+      "namn": "Uppsala",
+      "sportlov": 8
+    },
+    "varmland": {
+      "namn": "Värmland",
+      "sportlov": 9
+    },
+    "vasterbotten": {
+      "namn": "Västerbotten",
+      "sportlov": 10
+    },
+    "vasternorrland": {
+      "namn": "Västernorrland",
+      "sportlov": 10
+    },
+    "vastmanland": {
+      "namn": "Västmanland",
+      "sportlov": 9
+    },
+    "vastra-gotaland": {
+      "namn": "Västra Götaland",
+      "sportlov": 7
+    },
+    "orebro": {
+      "namn": "Örebro",
+      "sportlov": 8
+    },
+    "ostergotland": {
+      "namn": "Östergötland",
+      "sportlov": 8
+    }
   }
 }
