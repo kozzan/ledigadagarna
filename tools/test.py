@@ -35,6 +35,14 @@ class Dates(unittest.TestCase):
         for x in k.values():
             self.assertGreaterEqual(x["days"] - len(x["take"]), 3)
 
+    def test_skollov_lan_pages(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        subprocess.run([sys.executable, "tools/build.py"], cwd=root, check=True, capture_output=True)
+        html = open(os.path.join(root, "dist/skollov/2026/skane/index.html"), encoding="utf-8").read()
+        self.assertIn("vecka 8, måndag 16 februari 2026", html)
+        html = open(os.path.join(root, "dist/skollov/2026/vastra-gotaland/index.html"), encoding="utf-8").read()
+        self.assertIn("vecka 7, måndag 9 februari 2026", html)
+
     def test_build_runs(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         r = subprocess.run([sys.executable, "tools/build.py"], cwd=root, capture_output=True, text=True)
