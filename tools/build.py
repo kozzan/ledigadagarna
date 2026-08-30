@@ -229,6 +229,7 @@ def page_skollov(y, lan=None):
 <div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
 {year_switch("/skollov/{}/" + lan + "/", y)}
 <div class="tablewrap">{table}</div>
+{f'<p class="small">Undantag: {L[lan]["not"]}.</p>' if L[lan].get("not") else ''}
 {lov_faq_note()}
 <div class="faq">{"".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)}</div>
 <div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
