@@ -1,17 +1,28 @@
 {
-  "_note": "Lov per region och år. Sportlov/höstlov är fasta veckor per län; påsklov och terminsgränser sätts av varje kommun och MÅSTE verifieras mot kommunens läsårsplan innan sidan får ranka. Veckonummer (ISO).",
+  "_note": "Sportlov och höstlov är fasta veckor per län (ISO-vecka) och gäller alla år. Påsklov, sommarlov och jullov sätts av varje kommun och publiceras inte här. Verifiera sportlovsveckorna mot Skolverket/länsstyrelserna en gång per år.",
   "_verified": false,
-  "regions": {"stockholm": "Stockholm", "goteborg": "Göteborg", "skane": "Skåne", "ovriga": "Övriga landet"},
-  "2026": {
-    "stockholm": {"sportlov": 9, "pasklov": 15, "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v52–v1"},
-    "goteborg":  {"sportlov": 7, "pasklov": 14, "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v52–v1"},
-    "skane":     {"sportlov": 8, "pasklov": 14, "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v52–v1"},
-    "ovriga":    {"sportlov": "v7–v10", "pasklov": "v14–v15", "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v52–v1"}
-  },
-  "2027": {
-    "stockholm": {"sportlov": 9, "pasklov": 14, "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v51–v1"},
-    "goteborg":  {"sportlov": 7, "pasklov": 13, "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v51–v1"},
-    "skane":     {"sportlov": 8, "pasklov": 13, "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v51–v1"},
-    "ovriga":    {"sportlov": "v7–v10", "pasklov": "v13–v14", "hostlov": 44, "sommarlov": "v24–v33", "jullov": "v51–v1"}
+  "hostlov": 44,
+  "lan": {
+    "blekinge":        {"namn": "Blekinge",        "sportlov": 8},
+    "dalarna":         {"namn": "Dalarna",         "sportlov": 9},
+    "gotland":         {"namn": "Gotland",         "sportlov": 9},
+    "gavleborg":       {"namn": "Gävleborg",       "sportlov": 9},
+    "halland":         {"namn": "Halland",         "sportlov": 7},
+    "jamtland":        {"namn": "Jämtland",        "sportlov": 10},
+    "jonkoping":       {"namn": "Jönköping",       "sportlov": 7},
+    "kalmar":          {"namn": "Kalmar",          "sportlov": 8},
+    "kronoberg":       {"namn": "Kronoberg",       "sportlov": 8},
+    "norrbotten":      {"namn": "Norrbotten",      "sportlov": 10},
+    "skane":           {"namn": "Skåne",           "sportlov": 8},
+    "stockholm":       {"namn": "Stockholm",       "sportlov": 9},
+    "sodermanland":    {"namn": "Södermanland",    "sportlov": 7},
+    "uppsala":         {"namn": "Uppsala",         "sportlov": 8},
+    "varmland":        {"namn": "Värmland",        "sportlov": 7},
+    "vasterbotten":    {"namn": "Västerbotten",    "sportlov": 10},
+    "vasternorrland":  {"namn": "Västernorrland",  "sportlov": 10},
+    "vastmanland":     {"namn": "Västmanland",     "sportlov": 9},
+    "vastra-gotaland": {"namn": "Västra Götaland", "sportlov": 7},
+    "orebro":          {"namn": "Örebro",          "sportlov": 8},
+    "ostergotland":    {"namn": "Östergötland",    "sportlov": 7}
   }
 }
