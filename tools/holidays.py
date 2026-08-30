@@ -99,21 +99,59 @@ def off_days(y):
     return s
 
 
-def klamdagar(y):
-    """Workdays with a free day on both sides. Each -> {date, run:(start,end)}
-    where run is the contiguous free stretch you get by taking the day off."""
-    off = off_days(y) | off_days(y - 1) | off_days(y + 1)
-    out = []
-    d = D(y, 1, 1)
+def klamdagar(y, max_take=3):
+    """Bridges worth taking -> [{date, take:[dates], run:(a,b), days}], by date.
+    1. A whole workday run of <= max_take days between free days (klämdag,
+       mellandagarna).
+    2. The end of a longer run that touches a red weekday: take 1..max_take
+       days, keep the best days-per-day-taken (skärtorsdag before långfredag).
+    3. Two one-day bridges separated only by free days merge (2 + 5 jan).
+    Kept only if the free span gains >= 3 days beyond the days taken.
+    ponytail: heuristic, not optimal leave planning; good enough for a list."""
     one = dt.timedelta(1)
+    off = off_days(y - 1) | off_days(y) | off_days(y + 1)
+    special = {h["date"] for yy in (y - 1, y, y + 1) for h in year(yy) if h["off"] and h["date"].weekday() < 5}
+
+    def bridge(take):
+        a, b = take[0], take[-1]
+        while (a - one) in off: a -= one
+        while (b + one) in off: b += one
+        days = (b - a).days + 1
+        if days - len(take) < 3 or not any(a <= x <= b for x in special):
+            return None
+        return {"date": take[0], "take": list(take), "run": (a, b), "days": days}
+
+    runs, d, cur = [], D(y, 1, 1), []
     while d.year == y:
-        if d not in off and (d - one) in off and (d + one) in off:
-            a, b = d - one, d + one
-            while (a - one) in off: a -= one
-            while (b + one) in off: b += one
-            out.append({"date": d, "run": (a, b), "days": (b - a).days + 1})
+        if d in off:
+            if cur: runs.append(cur); cur = []
+        else:
+            cur.append(d)
         d += one
-    return out
+    if cur: runs.append(cur)
+
+    out = []
+    for run in runs:
+        if len(run) <= max_take:
+            br = bridge(run)
+            if br: out.append(br)
+            continue
+        for side in (-1, 1):
+            edge = run[0] - one if side == -1 else run[-1] + one
+            if edge not in special: continue
+            cands = [bridge(run[:k] if side == -1 else run[-k:]) for k in range(1, max_take + 1)]
+            cands = [c for c in cands if c]
+            if cands: out.append(max(cands, key=lambda c: c["days"] / len(c["take"])))
+    out.sort(key=lambda x: x["date"])
+    merged = []
+    for br in out:
+        prev = merged[-1] if merged else None
+        if prev and len(prev["take"]) == 1 and len(br["take"]) == 1 and prev["run"][1] + one >= br["run"][0]:
+            take = prev["take"] + br["take"]; a, b = prev["run"][0], br["run"][1]
+            merged[-1] = {"date": take[0], "take": take, "run": (a, b), "days": (b - a).days + 1}
+        else:
+            merged.append(br)
+    return merged
 
 
 def sv(d, with_year=True):
@@ -131,4 +169,4 @@ if __name__ == "__main__":
         print(f"{h['date']}\tv{week(h['date'])}\t{'röd' if h['red'] else '   '}\t{h['name']}")
     print("--- klämdagar")
     for k in klamdagar(y):
-        print(f"{k['date']}\t{sv(k['date'])}\t-> {k['days']} dagar ({k['run'][0]}–{k['run'][1]})")
+        print(f"{k['date']}\tta {len(k['take'])}\t-> {k['days']} dagar ({k['run'][0]}–{k['run'][1]})")

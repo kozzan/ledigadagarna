@@ -25,13 +25,15 @@ class Dates(unittest.TestCase):
         for y in (2025, 2026, 2027):
             self.assertEqual(sum(h["red"] for h in H.year(y)), 13)
 
-    def test_klamdag_2026_kristi_himmelsfard(self):
-        # Thu 14 May is red -> Fri 15 May is a klämdag giving Thu–Sun = 4 days.
+    def test_bridges_2026(self):
         k = {x["date"]: x for x in H.klamdagar(2026)}
-        self.assertIn(D(2026, 5, 15), k)
-        self.assertEqual(k[D(2026, 5, 15)]["days"], 4)
-        # A weekend is never a klämdag.
-        self.assertFalse(any(d.weekday() >= 5 for d in k))
+        self.assertEqual(k[D(2026, 5, 15)]["days"], 4)           # fre efter Kristi himmelsfärd
+        self.assertEqual(k[D(2026, 1, 2)]["take"], [D(2026, 1, 2), D(2026, 1, 5)])  # merged pair
+        self.assertEqual(k[D(2026, 12, 28)]["days"], 11)         # mellandagarna
+        self.assertIn(D(2026, 4, 2), k)                           # skärtorsdag
+        self.assertFalse(any(d.weekday() >= 5 for x in k.values() for d in x["take"]))
+        for x in k.values():
+            self.assertGreaterEqual(x["days"] - len(x["take"]), 3)
 
     def test_build_runs(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +43,10 @@ class Dates(unittest.TestCase):
         self.assertIn("Midsommarafton 2026 infaller fredag 19 juni 2026", html)
         self.assertIn('"@type": "FAQPage"', html)
         self.assertIn("<h1>", html)
-        self.assertNotIn("$", html.split("<main")[1].split("</main")[0], "unfilled template var")
+        self.assertNotIn("$", html, "unfilled template var")
+        home = open(os.path.join(root, "dist/index.html"), encoding="utf-8").read()
+        self.assertIn("<table>", home); self.assertNotIn("Newsreader", home)
+        self.assertIn('data-countdown=', home)
         self.assertTrue(os.path.exists(os.path.join(root, "dist/ads.txt")))
 
 
