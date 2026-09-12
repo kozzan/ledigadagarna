@@ -21,6 +21,8 @@ python3 tools/build.py
 ## Layout
 - `tools/holidays.py` — the only source of dates. `DAYS` table + Easter
   computus. Add a day there, it appears everywhere.
+- `tools/copy.py` — hand-written Swedish text for generated pages (hubs, day pages,
+  påsk/midsommar/jul). Text edits go here, never in build.py.
 - `tools/build.py` — renders `site/pages/**` (hand-written, `<!--meta -->`
   block) plus generated pages: `/`, `/<year>/`, `/klamdagar/<y>/`,
   `/skollov/<y>/`, `/kalender/<y>/<m>/`, `/<day-slug>/`, `/pask/`, `/midsommar/`, `/jul/`.
