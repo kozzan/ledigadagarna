@@ -35,6 +35,19 @@ class Dates(unittest.TestCase):
         for x in k.values():
             self.assertGreaterEqual(x["days"] - len(x["take"]), 3)
 
+    def test_copy_covers_every_page(self):
+        from tools import copy as C
+        self.assertEqual(set(C.DAYS), set(H.DAYS))
+        self.assertEqual(set(C.GROUPS), set(H.GROUPS))
+        self.assertEqual(set(C.HUB), {"year", "klamdagar", "skollov", "lan"})
+
+    def test_month_pages_carry_no_ads(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        subprocess.run([sys.executable, "tools/build.py"], cwd=root, check=True, capture_output=True)
+        page = open(os.path.join(root, "dist/kalender/2026/8/index.html"), encoding="utf-8").read()
+        self.assertNotIn("adsbygoogle\"", page)
+        self.assertNotIn("/kalender/", open(os.path.join(root, "dist/sitemap.xml")).read())
+
     def test_skollov_lan_pages(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         subprocess.run([sys.executable, "tools/build.py"], cwd=root, check=True, capture_output=True)

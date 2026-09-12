@@ -17,6 +17,7 @@ from string import Template
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tools import holidays as hol
+from tools import copy as C
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE, DIST = os.path.join(ROOT, "site"), os.path.join(ROOT, "dist")
@@ -100,8 +101,9 @@ def red_table(y, klam):
             f'<tbody>{"".join(rows)}</tbody></table>')
 
 
-def sidebar(y, extra=""):
-    return (f'<aside><div class="sticky"><div class="ad ad-300x600 desktop-ad">Annons 300×600</div>'
+def sidebar(y, extra="", ads=True):
+    ad = '<div class="ad ad-300x600 desktop-ad">Annons 300×600</div>' if ads else ""
+    return (f'<aside><div class="sticky">{ad}'
             f'<div class="quick"><p class="meta">Snabblänkar</p><a href="/klamdagar/{y}/">Klämdagar {y}</a>'
             f'<a href="/kalender/{y}/{max(TODAY.month if y == TODAY.year else 1, 1)}/">Kalender {hol.MONTHS[(TODAY.month if y == TODAY.year else 1) - 1]} {y}</a>'
             f'<a href="/{y + 1}/">Röda dagar {y + 1}</a><a href="/skollov/{y}/">Skollov {y}</a>{extra}</div></div></aside>')
@@ -143,6 +145,7 @@ def page_year(y, is_home):
 <p>{f'Ta {sum(len(k["take"]) for k in klam)} semesterdagar och få {sum(k["days"] for k in klam)} lediga dagar.' if klam else "Inga klämdagar i år."} <a href="/klamdagar/{y}/">Se alla klämdagar {y} →</a></p>
 <h2>Skollov {y}</h2>
 <p>Sportlov, påsklov, sommarlov, höstlov och jullov. <a href="/skollov/{y}/">Se alla lov för din region →</a></p>
+{C.HUB["year"].format(y=y)}
 <div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <h2>Namngivna dagar {y}</h2>
 {named_list(y)}
@@ -184,6 +187,7 @@ def page_klam(y):
 {year_switch("/klamdagar/{}/", y)}
 <div class="legend"><span><span class="sw rod"></span>● Röd dag</span><span><span class="sw klam"></span>◐ Klämdag</span><span><span class="sw helg"></span>Ledig</span><span><span class="sw"></span>Arbetsdag</span><span><span class="sw tagen"></span>◑ Dagen du tar ledigt</span></div>
 {"".join(row(k) for k in klam) if klam else "<p>Inga klämdagar detta år.</p>"}
+{C.HUB["klamdagar"]}
 <div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
 <div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <div class="links"><a href="/{y}/">Alla lediga dagar {y} →</a><a href="/skollov/{y}/">Skollov {y} →</a></div>
@@ -231,9 +235,8 @@ def page_skollov(y, lan=None):
 <div class="tablewrap">{table}</div>
 {f'<p class="small">Undantag: {L[lan]["not"]}.</p>' if L[lan].get("not") else ''}
 {lov_faq_note()}
+{C.HUB["lan"].format(n=n)}
 <div class="faq">{"".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)}</div>
-<div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
-<div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <h2>Andra län</h2>
 <div class="list2">{others}</div>
 <div class="links"><a href="/skollov/{y}/">Alla län {y} →</a><a href="/{y}/">Alla lediga dagar {y} →</a></div>
@@ -255,6 +258,7 @@ def page_skollov(y, lan=None):
 {year_switch("/skollov/{}/", y)}
 <div class="tablewrap"><table>{caption(f"Sportlov och höstlov {y} per län")}<thead><tr><th scope="col">Län</th><th scope="col" class="datum">Sportlov</th><th scope="col" class="d">Datum</th><th scope="col" class="d">Höstlov</th><th scope="col" class="d">Datum</th></tr></thead><tbody>{rows}</tbody></table></div>
 {lov_faq_note()}
+{C.HUB["skollov"].format(y=y)}
 <div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
 <div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <div class="links"><a href="/{y}/">Alla lediga dagar {y} →</a><a href="/klamdagar/{y}/">Klämdagar {y} →</a></div>
@@ -304,21 +308,19 @@ def page_month(y, m):
     body = f"""<div class="wrap cols"><div>
 <h1>Kalender {hol.MONTHS[m-1]} {y}</h1>
 <p>Månadskalender för {hol.MONTHS[m-1]} {y} med veckonummer, röda dagar (●) och klämdagar (◐).{" " + "; ".join(f"{h['name']} {hol.WEEKDAYS[h['date'].weekday()]} {h['date'].day} {hol.MONTHS[m-1]}" for h in in_month) + "." if in_month else ""}</p>
-<div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
-<div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
 <nav class="monthnav" aria-label="Månad"><a href="/kalender/{prev_m[0]}/{prev_m[1]}/">← {hol.MONTHS[prev_m[1]-1].capitalize()}</a><a href="/{y}/">Hela {y}</a><a href="/kalender/{next_m[0]}/{next_m[1]}/">{hol.MONTHS[next_m[1]-1].capitalize()} →</a></nav>
 <div class="kal" role="grid" aria-label="{hol.MONTHS[m-1]} {y}">{heads}{month_cells(y, m, names, klam_dates)}</div>
 <p class="small"><a href="javascript:print()">⎙ Skriv ut</a></p>
-<div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
-<div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <h2>Hela {y}</h2>
 {months_grid(y)}
-</div>{sidebar(y)}</div>"""
+</div>{sidebar(y, ads=False)}</div>"""
+    # ponytail: no ads and no sitemap entry -- AdSense flagged these as "screens without
+    # publisher content". Put both back once the month pages carry real text.
     return {"route": f"/kalender/{y}/{m}/", "title": f"Kalender {hol.MONTHS[m-1]} {y} med veckonummer och röda dagar",
-            "desc": f"Månadskalender {hol.MONTHS[m-1]} {y}: veckonummer, helgdagar och klämdagar. Utskriftsvänlig.", "priority": "0.5", "body": body}
+            "desc": f"Månadskalender {hol.MONTHS[m-1]} {y}: veckonummer, helgdagar och klämdagar. Utskriftsvänlig.", "priority": "0.5", "body": body, "sitemap": False}
 
 
-def named_common(slug, name, answer, faqs, table, target):
+def named_common(slug, name, answer, faqs, table, target, extra):
     y = TODAY.year
     body = f"""<div class="wrap cols"><div>
 <p class="meta crumb"><a href="/">Lediga dagar</a> · <a href="/{y}/">{y}</a> · {name}</p>
@@ -328,9 +330,8 @@ def named_common(slug, name, answer, faqs, table, target):
 <div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
 <div class="tablewrap">{table}</div>
 <div class="count"><b data-countdown="{target.isoformat()}">{days_until(target)}</b><span class="meta">Till {name.lower()} {target.year}</span></div>
+{extra}
 <div class="faq">{"".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)}</div>
-<div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
-<div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <div class="links"><a href="/{y}/">Alla lediga dagar {y} →</a><a href="/klamdagar/{y}/">Klämdagar {y} →</a></div>
 </div>{sidebar(y)}</div>"""
     return body
@@ -340,7 +341,10 @@ def page_day(slug):
     name, red, fn = hol.DAYS[slug]; d = fn(TODAY.year); dn = fn(TODAY.year + 1)
     status = "en röd dag" if red else "ingen röd dag" + (" men ledig hos de flesta arbetsgivare" if slug in hol.DE_FACTO_OFF else "")
     answer = f"{name} {TODAY.year} infaller {hol.sv(d)} (vecka {hol.week(d)}) och är {status}."
-    faqs = [(f"Är {name.lower()} en röd dag?", f"{name} är {status}."),
+    why = (f"Ja. {name} är en allmän helgdag enligt lag (1989:253) om allmänna helgdagar och därmed en röd dag i hela Sverige." if red
+           else f"Nej. {name} är inte en allmän helgdag, men de flesta arbetsplatser har stängt och semesterlagen jämställer dagen med söndag, så den kostar ingen semesterdag." if slug in hol.DE_FACTO_OFF
+           else f"Nej. {name} är ingen allmän helgdag utan en vanlig arbetsdag när den infaller på en vardag.")
+    faqs = [(f"Är {name.lower()} en röd dag?", why),
             (f"Vilken vecka är {name.lower()} {TODAY.year}?", f"Vecka {hol.week(d)}, {hol.sv(d)}."),
             (f"När är {name.lower()} {TODAY.year + 1}?", f"{hol.sv(dn).capitalize()}.")]
     rows = "".join(f'<tr><th scope="row">{y}</th><td class="datum">{"<span class=rod aria-hidden=true>●</span> " if red else ""}<time datetime="{fn(y).isoformat()}">{hol.sv(fn(y), with_year=False)}</time></td><td class="d">V. {hol.week(fn(y))}</td></tr>' for y in FIVE)
@@ -350,7 +354,7 @@ def page_day(slug):
                                 "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled",
                                 "location": {"@type": "Country", "name": "Sverige"}})
     return {"route": f"/{slug}/", "title": f"{name} {TODAY.year} – datum, vecka och röd dag?", "desc": answer, "priority": "0.8",
-            "body": named_common(slug, name, answer, faqs, table, target), "head": head}
+            "body": named_common(slug, name, answer, faqs, table, target, C.DAYS[slug].format(y=TODAY.year)), "head": head}
 
 
 def page_group(slug):
@@ -365,7 +369,7 @@ def page_group(slug):
         for i, m in enumerate(members)) + "</tr>" for y in FIVE)
     table = f'<table>{caption(f"{name} de närmaste fem åren")}<thead><tr><th scope="col">År</th>' + "".join(f'<th scope="col" class="{"datum" if i == 0 else "d"}">{hol.DAYS[m][0]}</th>' for i, m in enumerate(members)) + f"</tr></thead><tbody>{rows}</tbody></table>"
     d0 = hol.DAYS[members[0]][2](TODAY.year); target = d0 if d0 >= TODAY else hol.DAYS[members[0]][2](TODAY.year + 1)
-    body = named_common(slug, name, answer, faqs, table, target).replace('<div class="faq">', '<p>' + " · ".join(f'<a href="/{m}/">{hol.DAYS[m][0]}</a>' for m in members) + '</p><div class="faq">')
+    body = named_common(slug, name, answer, faqs, table, target, C.GROUPS[slug].format(y=TODAY.year)).replace('<div class="faq">', '<p>' + " · ".join(f'<a href="/{m}/">{hol.DAYS[m][0]}</a>' for m in members) + '</p><div class="faq">')
     return {"route": f"/{slug}/", "title": f"{name} {TODAY.year} – alla datum", "desc": answer, "priority": "0.9", "body": body, "head": faq(faqs)}
 
 
@@ -410,7 +414,7 @@ def main():
         if BASE_PATH:
             page = page.replace('href="/', f'href="{BASE_PATH}/').replace('src="/', f'src="{BASE_PATH}/')
         open(out, "w", encoding="utf-8").write(page)
-        routes.append((p["route"], p.get("priority", "0.7")))
+        if p.get("sitemap", True): routes.append((p["route"], p.get("priority", "0.7")))
     shutil.copytree(os.path.join(SITE, "assets"), os.path.join(DIST, "assets"))
     if BASE_PATH:
         for dirpath, _, files in os.walk(os.path.join(DIST, "assets")):
