@@ -46,12 +46,7 @@ HUB["skollov"] = """
 <p>Höstlovet är vecka 44 i praktiskt taget hela landet, alltid den vecka som slutar med alla helgons dag. Sedan 2016 kallas det läslov i många kommuner efter en satsning på läsning, men veckan är densamma.</p>
 <h2>Påsklov, sommarlov och jullov</h2>
 <p>De tre övriga loven varierar mer. Påsklovet ligger antingen veckan före eller veckan efter påsk beroende på kommun, och kan därför skilja sig mellan grannkommuner. Sommarlovet börjar i mitten av juni och slutar i mitten av augusti, oftast tio veckor. Jullovet börjar några dagar före jul och slutar strax efter trettondedag jul. Eftersom de datumen sätts per kommun listar vi dem inte här; din skolas läsårsplan är den enda säkra källan.</p>
-"""
-
-HUB["lan"] = """
-<h2>Om lovveckorna i {n} län</h2>
-<p>Sportlovsveckan är samordnad mellan kommunerna i {n} län och brukar ligga på samma vecka år efter år. Höstlovet, vecka 44, är gemensamt för hela landet. Påsklov, sommarlov och jullov beslutas av varje kommun och kan skilja sig åt även inom länet; de datumen finns i din skolas läsårsplan. Friskolor följer ofta kommunens lov, men inte alltid.</p>
-<p>Lovveckorna gäller grundskolan. Gymnasieskolorna i länet har i regel samma sportlov och höstlov, medan förskolan och fritidshemmet är öppna som vanligt under loven, oftast med förbokning.</p>
+<p>Lovveckorna gäller grundskolan. Gymnasieskolorna har i regel samma sportlov och höstlov, medan förskolan och fritidshemmet är öppna som vanligt under loven, oftast med förbokning. Friskolor följer ofta kommunens lov, men inte alltid.</p>
 """
 
 GROUPS["pask"] = """

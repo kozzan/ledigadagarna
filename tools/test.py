@@ -39,7 +39,7 @@ class Dates(unittest.TestCase):
         from tools import copy as C
         self.assertEqual(set(C.DAYS), set(H.DAYS))
         self.assertEqual(set(C.GROUPS), set(H.GROUPS))
-        self.assertEqual(set(C.HUB), {"year", "klamdagar", "skollov", "lan"})
+        self.assertEqual(set(C.HUB), {"year", "klamdagar", "skollov"})
 
     def test_month_pages_carry_no_ads(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,13 +48,18 @@ class Dates(unittest.TestCase):
         self.assertNotIn("adsbygoogle\"", page)
         self.assertNotIn("/kalender/", open(os.path.join(root, "dist/sitemap.xml")).read())
 
-    def test_skollov_lan_pages(self):
+    def test_skollov_lan_folded_into_hub(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         subprocess.run([sys.executable, "tools/build.py"], cwd=root, check=True, capture_output=True)
-        html = open(os.path.join(root, "dist/skollov/2026/skane/index.html"), encoding="utf-8").read()
-        self.assertIn("vecka 8, måndag 16 februari 2026", html)
-        html = open(os.path.join(root, "dist/skollov/2026/vastra-gotaland/index.html"), encoding="utf-8").read()
-        self.assertIn("vecka 7, måndag 9 februari 2026", html)
+        hub = open(os.path.join(root, "dist/skollov/2026/index.html"), encoding="utf-8").read()
+        self.assertIn('<tr id="skane">', hub)
+        self.assertIn("Vecka 8: Blekinge", hub)
+        self.assertIn("Kungsbacka följer Göteborg", hub)
+        self.assertIn('"@type": "FAQPage"', hub)
+        stub = open(os.path.join(root, "dist/skollov/2026/skane/index.html"), encoding="utf-8").read()
+        self.assertIn('url=/skollov/2026/#skane"', stub)
+        self.assertIn('rel="canonical" href="https://ledigadagarna.se/skollov/2026/"', stub)
+        self.assertNotIn("/skollov/2026/skane/", open(os.path.join(root, "dist/sitemap.xml")).read())
 
     def test_build_runs(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
