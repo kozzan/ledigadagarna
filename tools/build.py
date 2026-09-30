@@ -212,47 +212,23 @@ def lov_faq_note():
             'bestäms av varje kommun — de datumen hittar du i din skolas läsårsplan.</p>')
 
 
-def page_skollov(y, lan=None):
+def page_skollov(y):
     L = SKOLLOV["lan"]; hv = SKOLLOV["hostlov"]
-    if lan:
-        n = L[lan]["namn"]; sw = L[lan]["sportlov"]
-        answer = (f"Sportlovet {y} i {n} län är vecka {sw}, {hol.sv(week_range(y, sw)[0])} – {hol.sv(week_range(y, sw)[1])}. "
-                  f"Höstlovet {y} är vecka {hv}, {hol.sv(week_range(y, hv)[0])} – {hol.sv(week_range(y, hv)[1])}.")
-        faqs = [(f"Vilken vecka är sportlovet {y} i {n}?", f"Vecka {sw}, {hol.sv(week_range(y, sw)[0])} – {hol.sv(week_range(y, sw)[1])}."),
-                (f"Vilken vecka är höstlovet {y} i {n}?", f"Vecka {hv}, {hol.sv(week_range(y, hv)[0])} – {hol.sv(week_range(y, hv)[1])}."),
-                (f"När är sportlovet {y + 1} i {n}?", f"Vecka {sw}, {hol.sv(week_range(y + 1, sw)[0])} – {hol.sv(week_range(y + 1, sw)[1])}.")]
-        rows = "".join(f'<tr><th scope="row"><span class="name">{name}</span><span class="sub meta m">Vecka {w}</span></th>'
-                       f'<td class="d">V. {w}</td><td class="datum">{wk(y, w)}</td></tr>' for name, w in (("Sportlov", sw), ("Höstlov", hv)))
-        table = f'<table>{caption(f"Skollov {y} i {n} län")}<thead><tr><th scope="col">Lov</th><th scope="col" class="d">Vecka</th><th scope="col" class="datum">Datum</th></tr></thead><tbody>{rows}</tbody></table>'
-        others = "".join(f'<a href="/skollov/{y}/{k}/">{v["namn"]}</a>' for k, v in L.items() if k != lan)
-        body = f"""<div class="wrap cols"><div>
-<p class="meta crumb"><a href="/">Lediga dagar</a> · <a href="/skollov/{y}/">Skollov {y}</a> · {n}</p>
-<h1>Skollov {y} {n}</h1>
-<p>{answer}</p>
-<div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
-<div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
-{year_switch("/skollov/{}/" + lan + "/", y)}
-<div class="tablewrap">{table}</div>
-{f'<p class="small">Undantag: {L[lan]["not"]}.</p>' if L[lan].get("not") else ''}
-{lov_faq_note()}
-{C.HUB["lan"].format(n=n)}
-<div class="faq">{"".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)}</div>
-<h2>Andra län</h2>
-<div class="list2">{others}</div>
-<div class="links"><a href="/skollov/{y}/">Alla län {y} →</a><a href="/{y}/">Alla lediga dagar {y} →</a></div>
-</div>{sidebar(y)}</div>"""
-        return {"route": f"/skollov/{y}/{lan}/", "title": f"Sportlov och höstlov {y} {n} – vecka och datum", "desc": answer,
-                "priority": "0.7", "body": body, "head": faq(faqs)}
     rows = "".join(
-        f'<tr><th scope="row"><a class="name" href="/skollov/{y}/{k}/">{v["namn"]}</a><span class="sub meta m">Höstlov v. {hv}</span></th>'
+        f'<tr id="{k}"><th scope="row"><span class="name">{v["namn"]}</span><span class="sub meta m">Höstlov v. {hv}</span>'
+        f'{f"""<span class="sub meta">{v['not']}</span>""" if v.get("not") else ""}</th>'
         f'<td class="datum">V. {v["sportlov"]}</td><td class="d">{wk(y, v["sportlov"])}</td><td class="d">V. {hv}</td><td class="d">{wk(y, hv)}</td></tr>'
         for k, v in sorted(L.items(), key=lambda kv: (kv[1]["sportlov"], kv[1]["namn"])))
     by_week = {}
     for v in L.values(): by_week.setdefault(v["sportlov"], []).append(v["namn"])
     summary = " ".join(f"Vecka {w}: {', '.join(sorted(ns))}." for w, ns in sorted(by_week.items()))
+    span = lambda yy, w: f"{hol.sv(week_range(yy, w)[0])} – {hol.sv(week_range(yy, w)[1])}"
+    faqs = [(f"Vilken vecka är höstlovet {y}?", f"Vecka {hv}, {span(y, hv)}, i hela landet.")]
+    faqs += [(f"Vilka län har sportlov vecka {w} {y}?", f"{', '.join(sorted(ns))}: {span(y, w)}.") for w, ns in sorted(by_week.items())]
+    faqs += [(f"När är sportlovet {y} i Stockholm?", f"Vecka {L['stockholm']['sportlov']}, {span(y, L['stockholm']['sportlov'])}.")]
     body = f"""<div class="wrap cols"><div>
 <h1>Skollov {y}</h1>
-<p>Sportlovet {y} infaller vecka 7–10 beroende på län. {summary} Höstlovet är vecka {hv} i hela landet ({hol.sv(week_range(y, hv)[0])} – {hol.sv(week_range(y, hv)[1])}).</p>
+<p>Sportlovet {y} infaller vecka 7–10 beroende på län. {summary} Höstlovet är vecka {hv} i hela landet ({span(y, hv)}).</p>
 <div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
 <div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
 {year_switch("/skollov/{}/", y)}
@@ -261,10 +237,17 @@ def page_skollov(y, lan=None):
 {C.HUB["skollov"].format(y=y)}
 <div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
 <div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
+<div class="faq">{"".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)}</div>
 <div class="links"><a href="/{y}/">Alla lediga dagar {y} →</a><a href="/klamdagar/{y}/">Klämdagar {y} →</a></div>
 </div>{sidebar(y)}</div>"""
-    return {"route": f"/skollov/{y}/", "title": f"Skollov {y} – sportlov och höstlov per län",
-            "desc": f"Sportlov {y} vecka för vecka i alla 21 län, och höstlov vecka {hv}. Datum och veckonummer.", "priority": "0.8", "body": body}
+    return {"route": f"/skollov/{y}/", "title": f"Sportlov och höstlov {y} – vecka och datum för alla län",
+            "desc": f"Sportlov {y} vecka för vecka i alla 21 län, och höstlov vecka {hv}. Datum och veckonummer.", "priority": "0.8",
+            "body": body, "head": faq(faqs)}
+
+
+def moved(route, to):
+    """ponytail: GitHub Pages has no 301s; an instant meta refresh + canonical is what Google treats as one."""
+    return {"route": route, "redirect": to}
 
 
 def day_state(x, m, y, names, klam_dates):
@@ -376,7 +359,8 @@ def page_group(slug):
 def generated():
     pages = [page_year(TODAY.year, True)] + [page_year(y, False) for y in YEARS]
     pages += [page_klam(y) for y in YEARS] + [page_skollov(y) for y in YEARS]
-    pages += [page_skollov(y, lan) for y in YEARS for lan in SKOLLOV["lan"]]
+    # län pages were thin near-duplicates and got dropped from Google (Sep 2026); folded into the hub
+    pages += [moved(f"/skollov/{y}/{lan}/", f"/skollov/{y}/#{lan}") for y in YEARS for lan in SKOLLOV["lan"]]
     pages += [page_month(y, m) for y in YEARS for m in range(1, 13)]
     pages += [page_day(s) for s in hol.DAYS] + [page_group(s) for s in hol.GROUPS]
     return [p for p in pages if p]
@@ -405,6 +389,13 @@ def main():
     for p in list(file_pages()) + generated():
         out = os.path.join(DIST, p["route"].strip("/"), "index.html")
         os.makedirs(os.path.dirname(out), exist_ok=True)
+        if p.get("redirect"):
+            to = BASE_PATH + p["redirect"]
+            open(out, "w", encoding="utf-8").write(
+                f'<!doctype html><meta charset="utf-8"><title>{SITE_NAME}</title>'
+                f'<link rel="canonical" href="{BASE_URL}{to.split("#")[0]}"><meta http-equiv="refresh" content="0; url={to}">'
+                f'<a href="{to}">{BASE_URL}{to}</a>\n')
+            continue
         page = layout.safe_substitute(
             basepath=BASE_PATH, title=esc(p.get("title", SITE_NAME)), desc=esc(p.get("desc", "")),
             canonical=BASE_URL + BASE_PATH + p["route"], image=BASE_URL + BASE_PATH + p.get("image", OG_IMAGE),

@@ -67,6 +67,7 @@ td .name{font-weight:500;font-size:17px;line-height:1.2}td .sub{display:block;ma
 .pill{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);padding:6px 8px;line-height:1}
 .none{color:var(--ink-4)}
 .tablewrap{margin:0 0 20px}
+tr:target{outline:2px solid currentColor;outline-offset:-2px}
 
 /* klämdag planner */
 .legend{display:flex;flex-wrap:wrap;gap:12px 20px;font-size:14px;color:var(--ink-2);margin:0 0 20px}.legend span{display:inline-flex;align-items:center;gap:6px}
