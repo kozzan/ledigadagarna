@@ -24,6 +24,15 @@ HUB["year"] = """
 <p>De stora chanserna återkommer varje år: fredagen efter Kristi himmelsfärdsdag är alltid en klämdag, dagarna kring påsk och jul ger långledigt för få semesterdagar, och när nationaldagen eller första maj hamnar på en tisdag eller torsdag uppstår en klämdag mitt i veckan. Kalendrarna längst ned visar hela året i ett svep med veckonummer, och varje månad går att skriva ut.</p>
 """
 
+HOME = """
+<h2>Så använder du sidan</h2>
+<p>Den här sidan räknar alltid från dagens datum: tabellen ovan visar de lediga dagar som ligger närmast framför dig, oavsett om de är röda dagar enligt lag eller aftnar som i praktiken är lediga. Klicka på en dag för datum fem år framåt, svaret på om den är röd och vad som brukar gälla för öppettider och arbete. Vill du se hela året på en gång, med veckonummer och alla klämdagar, väljer du året i tabellen År för år.</p>
+<h2>Varför antalet lediga dagar skiljer sig mellan åren</h2>
+<p>Sverige har alltid tretton röda dagar, men hur många av dem som faktiskt ger ledigt beror på veckodagen. Sex av dem har fasta datum och vandrar genom veckan, och en röd dag som hamnar på en lördag eller söndag ersätts inte med en annan dag. Ett år där juldagarna, nyårsdagen och nationaldagen ligger på vardagar kan därför ge flera lediga dagar mer än ett år där de faller på helger. Kolumnen På vardagar visar skillnaden direkt.</p>
+<h2>Semester, klämdagar och lov i samma plan</h2>
+<p>Den som har barn i skolan planerar ofta efter loven, och den som har semesterdagar kvar efter klämdagarna. Sportlovet och höstlovet ligger fast per län, medan påsklov, sommarlov och jullov bestäms av kommunen. Kombinerar du höstlovet med allhelgonahelgen, eller sportlovet med en vecka semester, får du ut mest av dagarna. Alla datum här räknas fram ur lagen och kyrkoårets regler, inte skrivs in för hand, så de stämmer även för kommande år.</p>
+"""
+
 HUB["klamdagar"] = """
 <h2>Vad är en klämdag?</h2>
 <p>En klämdag är en vanlig arbetsdag som ligger inklämd mellan en röd dag och en helg, eller mellan två röda dagar. Klämdagen är inte ledig i sig. Den kostar en semesterdag, en flexdag eller en kompledig dag, om inte arbetsgivaren väljer att stänga. Poängen är utväxlingen: en dag ut, fyra eller fler dagar ledigt.</p>
@@ -78,124 +87,145 @@ DAYS["nyarsdagen"] = """
 <h2>Om nyårsdagen</h2>
 <p>Nyårsdagen är årets första röda dag och en av de sex helgdagarna med fast datum. Dagen efter nyårsafton är nästan allt stängt, och de flesta butiker öppnar först den 2 januari. Infaller nyårsdagen på en torsdag är fredagen den 2 januari en klämdag, ofta i kombination med dagarna före trettondedag jul den 6 januari.</p>
 <p>Nyårsafton är inte en röd dag men jämställs med söndag i semesterlagen, så den kostar ingen semester. Ligger nyårsafton och nyårsdagen på torsdag och fredag får du fyra dagar i rad utan att ta ut något.</p>
+<p>Systembolaget är stängt och kollektivtrafiken går i regel enligt söndagstidtabell. Den som arbetar på nyårsdagen får i många kollektivavtal storhelgstillägg, det högsta ob-tillägget. De första vardagarna i januari är ofta lugna på arbetsplatserna, och många lägger några semesterdagar där för att förlänga julledigheten fram till trettondedag jul.</p>
 """
 
 DAYS["trettondedag-jul"] = """
 <h2>Om trettondedag jul</h2>
 <p>Trettondedag jul den 6 januari firas till minne av de tre vise männens besök och är en röd dag i Sverige, till skillnad från i Danmark och Norge. Trettondagsafton den 5 januari är inte ledig enligt lag, men många kollektivavtal ger halvdag.</p>
 <p>Hamnar trettondedagen på en tisdag eller torsdag blir måndagen eller fredagen en klämdag, ofta i kombination med den 2 januari. Trettondedag jul avslutar julen i almanackan; tjugondag Knut den 13 januari, då granen dansas ut, är ingen helgdag.</p>
+<p>Trettondedag jul markerar för många slutet på julledigheten: skolornas jullov slutar ungefär samtidigt, och veckan efter är den första hela arbetsveckan på året. Butikerna har söndagsöppet och Systembolaget är stängt. För den som arbetar räknas dagen som helgdag med ob-tillägg.</p>
 """
 
 DAYS["langfredagen"] = """
 <h2>Om långfredagen</h2>
 <p>Långfredagen är fredagen före påskdagen och en röd dag till minne av Jesu korsfästelse. Fram till 1969 rådde nöjesförbud på långfredagen, med stängda biografer och danslokaler. Eftersom påsken flyttar sig varierar långfredagen mellan 20 mars och 23 april.</p>
 <p>Tillsammans med annandag påsk ger den en fyradagarshelg utan semester. Skärtorsdagen dagen före är halvdag på många arbetsplatser och en av årets bästa klämdagar.</p>
+<p>Systembolaget är stängt under hela påskhelgen från långfredagen till annandag påsk, så den som vill handla inför påskmiddagen behöver göra det senast skärtorsdagen. Butiker har i dag oftast söndagsöppet, och kollektivtrafiken går enligt helgtidtabell. I många kollektivavtal räknas påskhelgen som storhelg med förhöjt ob-tillägg.</p>
 """
 
 DAYS["paskafton"] = """
 <h2>Om påskafton</h2>
 <p>Påskafton är lördagen före påskdagen och ingen röd dag, men den är alltid en lördag och därför ledig för de flesta. Det är dagen för påskmiddagen och påskäggen, och butikerna har ofta begränsade öppettider. Påskafton infaller mellan 21 mars och 24 april.</p>
 <p>Fyra dagar i rad, långfredag, påskafton, påskdagen och annandag påsk, är lediga för alla som arbetar vardagar, och med skärtorsdagen som semesterdag blir det fem.</p>
+<p>Påskafton är en av de få lördagar då Systembolaget håller stängt, tillsammans med midsommarafton, julafton och nyårsafton. Påskris, ägg, sill och lamm hör till traditionerna, liksom barn som klär ut sig till påskkärringar. Kvällen före, skärtorsdagen, är enligt folktron den kväll häxorna flyger till Blåkulla.</p>
 """
 
 DAYS["paskdagen"] = """
 <h2>Om påskdagen</h2>
 <p>Påskdagen är kyrkoårets viktigaste dag och alltid en söndag mellan 22 mars och 25 april. Datumet räknas fram som den första söndagen efter första fullmånen efter vårdagjämningen. Eftersom påskdagen alltid är en söndag ger den ingen extra ledighet i sig, men den styr långfredagen, annandag påsk, Kristi himmelsfärdsdag och pingstdagen. Alla rörliga helgdagar i Sverige räknas från påskdagen.</p>
 <p>Tidig påsk betyder att påsklovet och Kristi himmelsfärdsdag kommer tidigt på våren; sen påsk ger en Kristi himmelsfärdsdag i början av juni.</p>
+<p>Påskdagen är den lugnaste dagen under påskhelgen: många butiker har kortare öppettider och Systembolaget är stängt. I kyrkan firas påskdagsmässa. Eftersom datumet räknas fram ur månens faser kan påsken skilja nästan en månad mellan två år, vilket påverkar allt från påsklov till när Kristi himmelsfärdsdag och pingst infaller.</p>
 """
 
 DAYS["annandag-pask"] = """
 <h2>Om annandag påsk</h2>
 <p>Annandag påsk är måndagen efter påskdagen och en röd dag. Den är den enda röda dagen som alltid infaller på en måndag, vilket gör att påsken alltid ger en lång helg oavsett år. Den som tar hela veckan efter påsk är ledig tio dagar för fyra semesterdagar.</p>
 <p>I Danmark, Norge, Finland och Tyskland är annandag påsk också helgdag, så påskveckan är lugn i stora delar av norra Europa.</p>
+<p>Annandag påsk är den dag då många reser hem efter påskhelgen, och vägar och tåg är ofta som mest belastade på eftermiddagen. Butiker har vanligen söndagsöppet och Systembolaget är stängt. Den som arbetar får helgdagstillägg enligt de flesta kollektivavtal. Påsklovet i skolan ligger i många kommuner veckan som börjar på annandagen.</p>
 """
 
 DAYS["valborg"] = """
 <h2>Om valborgsmässoafton</h2>
 <p>Valborgsmässoafton den 30 april är inte en röd dag. Det är en vanlig arbetsdag, men många kollektivavtal ger halv dag, och i universitetsstäderna Uppsala och Lund tar staden i praktiken ledigt. Dagen firas med brasor och vårsånger på kvällen.</p>
 <p>Dagen efter, första maj, är röd. Infaller första maj på en tisdag är valborg en måndag och själv en klämdag; infaller första maj på en torsdag är det fredagen den 2 maj som blir klämdag.</p>
+<p>Butiker och Systembolaget har öppet som vanligt, men stänger ofta tidigare än en vanlig vardag. Majbrasor tänds i hela landet, ofta arrangerade av hembygdsföreningar, och vårsången framförs av manskörer. I Uppsala och Lund samlar studentfirandet tiotusentals besökare, med champagnegalopp och forsränning i Uppsala.</p>
 """
 
 DAYS["forsta-maj"] = """
 <h2>Om första maj</h2>
 <p>Första maj har varit allmän helgdag i Sverige sedan 1939, den första helgdagen utan kyrklig bakgrund, och är arbetarrörelsens dag med demonstrationer i de flesta städer. Datumet är fast, så dagen vandrar genom veckan: på en tisdag eller torsdag ger den en klämdag, på en helg ger den ingenting.</p>
 <p>Valborgsmässoafton dagen före är halvdag på många arbetsplatser, vilket gör att första maj på en torsdag ger en nästan fyra dagar lång helg för en enda semesterdag.</p>
+<p>Systembolaget är stängt och butikerna har söndagsöppet. Kollektivtrafiken går enligt helgtidtabell, men i städerna kan bussar ledas om på grund av demonstrationstågen. För den som arbetar räknas första maj som helgdag med ob-tillägg. Eftersom valborg och första maj ligger intill varandra blir de ett naturligt tillfälle för en kort vårledighet.</p>
 """
 
 DAYS["kristi-himmelsfard"] = """
 <h2>Om Kristi himmelsfärdsdag</h2>
 <p>Kristi himmelsfärdsdag infaller 39 dagar efter påskdagen och därför alltid på en torsdag, mellan 30 april och 3 juni. Det gör fredagen efter till Sveriges säkraste klämdag: en semesterdag ger fyra dagar ledigt, och tar du också måndag till onsdag samma vecka blir det nio dagar för fyra.</p>
 <p>Dagen kallas i folkmun Kristi flygare. Söndagen tio dagar senare är pingstdagen, och i vissa år ligger nationaldagen den 6 juni bara några dagar bort, så maj och början av juni är årets tätaste helgdagsperiod.</p>
+<p>Systembolaget är stängt och butikerna har söndagsöppet. Klämdagen fredagen efter är så populär att många arbetsplatser har stängt helt eller är halvtomma, och skolorna i en del kommuner har lovdag. Boka resor och stugor tidigt; den långa helgen i maj är en av vårens mest efterfrågade.</p>
 """
 
 DAYS["mors-dag"] = """
 <h2>Om mors dag</h2>
 <p>Mors dag firas i Sverige den sista söndagen i maj, sedan 1919 när dagen infördes efter amerikansk förebild. Den är ingen röd dag, men eftersom den alltid är en söndag är den ledig för de flesta.</p>
 <p>Datumet skiljer sig från många andra länder: i USA, Danmark och Finland är det andra söndagen i maj, i Norge andra söndagen i februari. Vissa år sammanfaller mors dag med pingstdagen.</p>
+<p>Traditionen är frukost på sängen, blommor och ett kort, ofta förberett av barnen i förskola eller skola. Blomsterhandlarna har mors dag som en av årets största dagar. Eftersom dagen alltid är en söndag följer butikernas öppettider söndagens, och Systembolaget har stängt.</p>
 """
 
 DAYS["nationaldagen"] = """
 <h2>Om nationaldagen</h2>
 <p>Sveriges nationaldag den 6 juni blev röd dag 2005 och ersatte då annandag pingst, som slutade vara helgdag samma år. Datumet minns Gustav Vasas kungaval 1523 och 1809 års regeringsform. Dagen kallades svenska flaggans dag från 1916 och blev nationaldag 1983.</p>
 <p>Eftersom datumet är fast hamnar nationaldagen vissa år på en helg, och då får de anställda ingen ersättningsdag. En del kollektivavtal kompenserar detta med en extra ledig dag, eftersom annandag pingst alltid var en måndag.</p>
+<p>Systembolaget är stängt och butikerna har söndagsöppet. Kungafamiljen deltar i firandet på Skansen i Stockholm, och nya svenska medborgare välkomnas vid ceremonier i många kommuner. Flaggan hissas på allmänna flaggstänger. När nationaldagen ligger på en tisdag eller torsdag ger den en klämdag mitt i försommaren.</p>
 """
 
 DAYS["pingstdagen"] = """
 <h2>Om pingstdagen</h2>
 <p>Pingstdagen infaller 49 dagar efter påskdagen, alltid en söndag mellan 10 maj och 13 juni. Den är en röd dag men ger som söndag ingen extra ledighet. Annandag pingst, måndagen efter, var röd dag fram till 2004 men togs bort när nationaldagen blev helgdag 2005.</p>
 <p>Pingsten är en av årets mest populära bröllopshelger, och pingstdagen sammanfaller vissa år med mors dag.</p>
+<p>Systembolaget är stängt och butikerna har söndagsöppet. Pingsten firar den helige andes utgjutande över lärjungarna och är en av kyrkans tre stora högtider tillsammans med jul och påsk. Pingstafton dagen före är en lördag och ingen helgdag.</p>
 """
 
 DAYS["midsommarafton"] = """
 <h2>Om midsommarafton</h2>
 <p>Midsommarafton är fredagen mellan 19 och 25 juni. Den är inte en röd dag enligt lag, men jämställs med söndag i semesterlagen, och praktiskt taget hela landet har stängt. Butiker stänger tidigt eller håller helt stängt, och kollektivtrafiken går som på en söndag.</p>
 <p>Torsdagen före är en klämdag: en semesterdag ger fyra lediga dagar. Midsommardagen på lördagen är den röda dagen.</p>
+<p>Systembolaget är stängt, så inköpen görs dagarna före. Firandet är i stort sett detsamma i hela landet: midsommarstång, dans kring den, sill, färskpotatis och jordgubbar. Trafiken ut från städerna är som tätast torsdag eftermiddag, och många tågavgångar blir fullbokade veckor i förväg. Den som arbetar har storhelgstillägg i de flesta avtal.</p>
 """
 
 DAYS["midsommardagen"] = """
 <h2>Om midsommardagen</h2>
 <p>Midsommardagen är den lördag som infaller mellan 20 och 26 juni och en röd dag. Före 1953 firades den alltid den 24 juni. Eftersom den nu alltid är en lördag ger den ingen ledighet utöver helgen, men den är fortfarande en helgdag med allt vad det innebär för öppettider och ob-tillägg.</p>
 <p>Midsommarhelgen är starten på industrisemestern: veckan efter går många på fyra veckors sammanhängande ledighet.</p>
+<p>Dagen efter midsommarafton är en av årets lugnaste dagar: många butiker har kortare öppettider och Systembolaget är stängt. Kollektivtrafiken går enligt helgtidtabell. Midsommardagen avslutar också försommarens tätaste helgperiod, som börjar med Kristi himmelsfärdsdag och fortsätter med pingst och nationaldagen.</p>
 """
 
 DAYS["alla-helgons-dag"] = """
 <h2>Om alla helgons dag</h2>
 <p>Alla helgons dag är den lördag som infaller mellan 31 oktober och 6 november, och en röd dag. Före 1953 firades den den 1 november. Fredagen före, allhelgonaafton, är halvdag i många kollektivavtal, och höstlovet i skolorna ligger alltid samma vecka, vecka 44.</p>
 <p>Alla helgons dag ska inte blandas ihop med allhelgonadagen den 1 november eller alla själars dag söndagen efter, som båda finns i almanackan men inte är lediga. Halloween den 31 oktober är samma helgs kväll i engelskspråkig tradition, men ingen ledig dag.</p>
+<p>Systembolaget är stängt och butikerna har söndagsöppet. Under helgen tänds ljus på gravar över hela landet, och kyrkogårdarna har ofta öppet längre och fyllda parkeringar. Många kyrkor har minnesgudstjänster och konserter. Eftersom höstlovet ligger samma vecka är det också en helg då många familjer reser.</p>
 """
 
 DAYS["fars-dag"] = """
 <h2>Om fars dag</h2>
 <p>Fars dag firas i Sverige, Norge, Finland, Island och Estland andra söndagen i november, en nordisk tradition som skiljer sig från resten av världen där tredje söndagen i juni är vanligast. Dagen är ingen röd dag men alltid en söndag.</p>
 <p>I Sverige firas fars dag i november sedan 1949; innan dess låg den i juni som i USA.</p>
+<p>Firandet liknar mors dag, med frukost på sängen och presenter, men är oftast mindre. Eftersom fars dag ligger i november sammanfaller den med att julhandeln börjar, och många butiker gör kampanjer veckan före. Dagen är en allmän flaggdag i Finland, men inte i Sverige.</p>
 """
 
 DAYS["lucia"] = """
 <h2>Om lucia</h2>
 <p>Lucia den 13 december är ingen röd dag utan en vanlig arbetsdag med luciatåg i skolor och på arbetsplatser tidigt på morgonen. Datumet är fast; infaller det på en helg hålls luciatågen oftast fredagen före eller måndagen efter.</p>
 <p>Dagen är Sankta Lucias dag i den katolska kalendern, och i den gamla julianska kalendern var den 13 december årets längsta natt, vilket är skälet till ljusen. Nästa lediga dag är julafton.</p>
+<p>Butiker, Systembolaget och kollektivtrafik har öppet som vanligt. Luciatåget med lucia, tärnor, stjärngossar och tomtenissar framförs i förskolor, skolor, kyrkor och på äldreboenden, ofta i flera omgångar under veckan. Lussekatter med saffran bakas från början av december, och många arbetsplatser bjuder på glögg och pepparkakor.</p>
 """
 
 DAYS["julafton"] = """
 <h2>Om julafton</h2>
 <p>Julafton den 24 december är inte en röd dag enligt lag men i praktiken årets mest lediga dag: semesterlagen jämställer den med söndag, nästan alla arbetsplatser är stängda och butikerna stänger tidigt.</p>
 <p>Infaller julafton på en torsdag blir det fyra dagar ledigt i rad utan semester; på en fredag blir det fredag till söndag. Hamnar julafton på en lördag eller söndag ger julen nästan ingen extra ledighet, eftersom röda dagar på helger inte kompenseras i Sverige.</p>
+<p>Systembolaget är stängt, och de flesta butiker har öppet en kort stund på förmiddagen. Kollektivtrafiken går ofta enligt lördags- eller söndagstidtabell. Det svenska julfirandet sker på julafton snarare än juldagen: julbord, Kalle Anka klockan 15 och tomten på kvällen. Den som arbetar har storhelgstillägg i de flesta kollektivavtal.</p>
 """
 
 DAYS["juldagen"] = """
 <h2>Om juldagen</h2>
 <p>Juldagen den 25 december är en röd dag med fast datum, så veckodagen vandrar från år till år. Vilken veckodag juldagen hamnar på avgör hur mellandagarna faller och hur långt ledigt julen ger; se klämdagssidan för ditt år.</p>
 <p>Traditionellt firas juldagen stillsamt efter julaftons fest, med julotta i kyrkan tidigt på morgonen. Nästan allt är stängt, även de butiker som hade öppet på julafton.</p>
+<p>Juldagen är en av de få dagar på året då många butiker håller helt stängt, och kollektivtrafiken går i glesare takt än en vanlig söndag. Den som arbetar på juldagen får storhelgstillägg i de flesta kollektivavtal. Många använder dagen till att resa vidare till släkt inför annandagen.</p>
 """
 
 DAYS["annandag-jul"] = """
 <h2>Om annandag jul</h2>
 <p>Annandag jul den 26 december är en röd dag till minne av den förste martyren Stefanos. Den är årets sista röda dag och den som gör mellandagarna intressanta: vardagarna mellan annandag jul och nyårsafton är som mest fyra, och tar du dem som semester är du ledig från julafton till efter nyår.</p>
 <p>Mellandagsrean börjar traditionellt på annandagen. Nyårsafton fem dagar senare jämställs med söndag i semesterlagen.</p>
+<p>Butikerna öppnar ofta tidigt för mellandagsrean, medan Systembolaget är stängt. Kollektivtrafiken går enligt helgtidtabell. Annandagen är traditionellt en dag för bandy, fotbollsmatcher på tv och resor hem efter julen. Den som arbetar har i de flesta avtal storhelgstillägg även på annandagen.</p>
 """
 
 DAYS["nyarsafton"] = """
 <h2>Om nyårsafton</h2>
 <p>Nyårsafton den 31 december är ingen röd dag enligt lag men jämställs med söndag i semesterlagen, precis som julafton och midsommarafton. De flesta arbetsplatser har stängt, och butiker stänger tidigt. Nyårsdagen dagen efter är röd.</p>
 <p>Ligger nyårsafton och nyårsdagen på torsdag och fredag får du fyra dagar i rad utan semester. Mellandagarna före nyårsafton är de klassiska klämdagarna i slutet av året.</p>
+<p>Systembolaget är stängt, så inköpen görs senast dagen före. Butiker stänger tidigt på eftermiddagen och kollektivtrafiken går ofta med extra turer på natten. Strax före tolv läses Tennysons dikt Nyårsklockan upp från Skansen i tv, en tradition sedan slutet av 1800-talet.</p>
 """

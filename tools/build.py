@@ -119,7 +119,7 @@ def named_list(y):
 
 
 # ------------------------------------------------------------------ pages
-def page_year(y, is_home):
+def page_year(y):
     days = hol.year(y); klam = hol.klamdagar(y)
     red = [h for h in days if h["red"]]; weekday_red = [h for h in red if h["date"].weekday() < 5]
     nxt = next((h for h in days if h["red"] and h["date"] >= TODAY), None) if y == TODAY.year else (red[0] if y > TODAY.year else None)
@@ -152,9 +152,59 @@ def page_year(y, is_home):
 <h2>Kalender {y}</h2>
 {months_grid(y)}
 </div>{sidebar(y)}</div>"""
-    return {"route": "/" if is_home else f"/{y}/", "title": f"Lediga dagar {y} – alla röda dagar, klämdagar och lov",
+    return {"route": f"/{y}/", "title": f"Lediga dagar {y} – alla röda dagar, klämdagar och lov",
             "desc": f"Alla röda dagar {y} med veckonummer, klämdagar och skollov. {len(red)} helgdagar, {len(klam)} klämdagar.",
-            "priority": "1.0" if is_home else "0.9", "body": body}
+            "priority": "0.9", "body": body}
+
+
+def page_home():
+    """Its own page, not a copy of /<year>/: what's next from today. Rebuilt daily by the deploy cron."""
+    y = TODAY.year
+    ahead = [h for yy in (y, y + 1) for h in hol.year(yy) if h["off"] and h["date"] >= TODAY][:8]
+    nxt_red = next(h for yy in (y, y + 1) for h in hol.year(yy) if h["red"] and h["date"] >= TODAY)
+    klam = next((k for yy in (y, y + 1) for k in hol.klamdagar(yy) if k["take"][0] >= TODAY), None)
+    d = nxt_red["date"]; hv = SKOLLOV["hostlov"]
+    rows = "".join(
+        f'<tr><td><a class="name" href="/{h["slug"]}/">{h["name"]}</a></td>'
+        f'<td class="datum">{dot(h)}<time datetime="{h["date"].isoformat()}">{hol.WEEKDAYS[h["date"].weekday()][:3]} {h["date"].day} {hol.MONTHS[h["date"].month-1][:3]} {h["date"].year}</time></td>'
+        f'<td class="d">V. {hol.week(h["date"])}</td><td class="d"><span data-countdown="{h["date"].isoformat()}">{days_until(h["date"])}</span></td></tr>'
+        for h in ahead)
+    if klam:
+        takes = " + ".join(f"{hol.WEEKDAYS[x.weekday()]} {x.day} {hol.MONTHS[x.month-1]}" for x in klam["take"])
+        klam_p = (f'<p>Nästa klämdag: ta ledigt {takes} {klam["take"][0].year} (vecka {hol.week(klam["take"][0])}) och få '
+                  f'{klam["days"]} lediga dagar i rad för {len(klam["take"])} semesterdag{"ar" if len(klam["take"]) > 1 else ""}. '
+                  f'<a href="/klamdagar/{klam["take"][0].year}/">Alla klämdagar {klam["take"][0].year} →</a></p>')
+    else:
+        klam_p = ""
+    hl_end = week_range(y, hv)[1]
+    lov_p = (f'<p>Höstlovet {y} är vecka {hv}, {wk(y, hv)}, i hela landet. Därefter kommer jullovet och sportlovet {y + 1}, '
+             f'som ligger vecka 7–10 beroende på län. <a href="/skollov/{y}/">Skollov {y} per län →</a></p>' if TODAY <= hl_end else
+             f'<p>Nästa lov med fast vecka är sportlovet {y + 1}, vecka 7–10 beroende på län. Höstlovet {y + 1} är vecka {hv}. '
+             f'<a href="/skollov/{y + 1}/">Skollov {y + 1} per län →</a></p>')
+    def yr(x):
+        red = [h for h in hol.year(x) if h["red"]]; k = hol.klamdagar(x)
+        return (f'<tr><th scope="row"><a href="/{x}/">{x}</a></th><td class="datum">{len(red)}</td>'
+                f'<td class="d">{sum(h["date"].weekday() < 5 for h in red)}</td><td class="d"><a href="/klamdagar/{x}/">{len(k)}</a></td></tr>')
+    body = f"""<div class="wrap cols"><div>
+<h1>När är jag ledig nästa gång?</h1>
+<p>Nästa röda dag är {nxt_red["name"].lower()}, {t(d)} (vecka {hol.week(d)}), <span data-countdown="{d.isoformat()}">{days_until(d)}</span>. Just nu är det vecka {hol.week(TODAY)}.</p>
+<div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
+<div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
+<h2>Kommande lediga dagar</h2>
+<div class="tablewrap"><table>{caption("De närmaste lediga dagarna")}<thead><tr><th scope="col">Dag</th><th scope="col" class="datum">Datum</th><th scope="col" class="d">Vecka</th><th scope="col" class="d">När</th></tr></thead><tbody>{rows}</tbody></table></div>
+<h2>Nästa klämdag</h2>
+{klam_p}
+<h2>Nästa skollov</h2>
+{lov_p}
+<div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
+<div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
+<h2>År för år</h2>
+<div class="tablewrap"><table>{caption("Röda dagar och klämdagar per år")}<thead><tr><th scope="col">År</th><th scope="col" class="datum">Röda dagar</th><th scope="col" class="d">På vardagar</th><th scope="col" class="d">Klämdagar</th></tr></thead><tbody>{"".join(yr(x) for x in YEARS)}</tbody></table></div>
+{C.HOME.format(y=y)}
+</div>{sidebar(y)}</div>"""
+    return {"route": "/", "title": "Lediga dagar – nästa röda dag, klämdag och lov",
+            "desc": f"Nästa röda dag är {nxt_red['name'].lower()} {hol.sv(d)}. Kommande lediga dagar, nästa klämdag och nästa skollov, alltid räknat från idag.",
+            "priority": "1.0", "body": body}
 
 
 def tile(d, y_off, take, red_dates, klam_dates):
@@ -297,10 +347,11 @@ def page_month(y, m):
 <h2>Hela {y}</h2>
 {months_grid(y)}
 </div>{sidebar(y, ads=False)}</div>"""
-    # ponytail: no ads and no sitemap entry -- AdSense flagged these as "screens without
-    # publisher content". Put both back once the month pages carry real text.
+    # ponytail: no ads, no sitemap entry, noindex -- AdSense flagged these as "screens without
+    # publisher content" and Google left them "crawled, not indexed". They are for printing.
     return {"route": f"/kalender/{y}/{m}/", "title": f"Kalender {hol.MONTHS[m-1]} {y} med veckonummer och röda dagar",
-            "desc": f"Månadskalender {hol.MONTHS[m-1]} {y}: veckonummer, helgdagar och klämdagar. Utskriftsvänlig.", "priority": "0.5", "body": body, "sitemap": False}
+            "desc": f"Månadskalender {hol.MONTHS[m-1]} {y}: veckonummer, helgdagar och klämdagar. Utskriftsvänlig.", "priority": "0.5", "body": body, "sitemap": False,
+            "head": '<meta name="robots" content="noindex, follow">'}
 
 
 def named_common(slug, name, answer, faqs, table, target, extra):
@@ -357,7 +408,7 @@ def page_group(slug):
 
 
 def generated():
-    pages = [page_year(TODAY.year, True)] + [page_year(y, False) for y in YEARS]
+    pages = [page_home()] + [page_year(y) for y in YEARS]
     pages += [page_klam(y) for y in YEARS] + [page_skollov(y) for y in YEARS]
     # län pages were thin near-duplicates and got dropped from Google (Sep 2026); folded into the hub
     pages += [moved(f"/skollov/{y}/{lan}/", f"/skollov/{y}/#{lan}") for y in YEARS for lan in SKOLLOV["lan"]]
