@@ -61,6 +61,15 @@ class Dates(unittest.TestCase):
         self.assertIn('rel="canonical" href="https://ledigadagarna.se/skollov/2026/"', stub)
         self.assertNotIn("/skollov/2026/skane/", open(os.path.join(root, "dist/sitemap.xml")).read())
 
+    def test_home_is_not_the_year_page(self):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        subprocess.run([sys.executable, "tools/build.py"], cwd=root, check=True, capture_output=True)
+        home = open(os.path.join(root, "dist/index.html"), encoding="utf-8").read()
+        self.assertIn("<h1>När är jag ledig nästa gång?</h1>", home)
+        self.assertNotIn("<h1>Lediga dagar", home)
+        kal = open(os.path.join(root, "dist/kalender/2026/8/index.html"), encoding="utf-8").read()
+        self.assertIn('<meta name="robots" content="noindex, follow">', kal)
+
     def test_build_runs(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         r = subprocess.run([sys.executable, "tools/build.py"], cwd=root, capture_output=True, text=True)

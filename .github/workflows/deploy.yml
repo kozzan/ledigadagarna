@@ -1,6 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
+  schedule:
+    - cron: "15 3 * * *"   # home page counts from the build date
   push:
     branches: [main]
   workflow_dispatch:
