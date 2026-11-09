@@ -17,7 +17,7 @@ HUB["year"] = """
 <h2>Aftnar och andra lediga dagar</h2>
 <p>Midsommarafton, julafton och nyårsafton är inte röda dagar, men i praktiken lediga för de allra flesta. Semesterlagen jämställer dem med söndag, så de kostar inga semesterdagar. Många kollektivavtal ger dessutom halv dag på skärtorsdagen, valborgsmässoafton, allhelgonaafton och trettondagsafton. Vad som gäller på din arbetsplats står i kollektivavtalet eller i personalhandboken.</p>
 <h2>Röda dagar och semester</h2>
-<p>Semesterlagen ger dig minst 25 semesterdagar om året. Lördagar, söndagar och röda dagar räknas inte som semesterdagar, vilket är hela poängen med klämdagar: en semesterdag som placeras mellan en röd dag och en helg köper flera lediga dagar. På sidan för klämdagar finns en dag-för-dag-remsa för varje tillfälle {y} som visar exakt vilka datum du behöver ta ut.</p>
+<p><a href="/semesterlagen/">Semesterlagen</a> ger dig minst 25 semesterdagar om året. Lördagar, söndagar och röda dagar räknas inte som semesterdagar, vilket är hela poängen med klämdagar: en semesterdag som placeras mellan en röd dag och en helg köper flera lediga dagar. På sidan för klämdagar finns en dag-för-dag-remsa för varje tillfälle {y} som visar exakt vilka datum du behöver ta ut.</p>
 <h2>Vad kolumnerna betyder</h2>
 <p>Typ-kolumnen skiljer på tre saker. Röd dag är en helgdag enligt lag. Ledig är en afton som inte är röd men som nästan alla har ledigt. Märkesdag är en dag som är utmärkt i almanackan utan att vara ledig, som mors dag, fars dag och lucia. Klämdag-kolumnen visar om det finns en vardag intill helgdagen som är värd att ta ledigt.</p>
 <h2>Planera året</h2>
