@@ -103,10 +103,11 @@ def red_table(y, klam):
 
 def sidebar(y, extra="", ads=True):
     ad = '<div class="ad ad-300x600 desktop-ad">Annons 300×600</div>' if ads else ""
+    nxt = f'<a href="/{y + 1}/">Röda dagar {y + 1}</a>' if y + 1 in YEARS else ""
     return (f'<aside><div class="sticky">{ad}'
             f'<div class="quick"><p class="meta">Snabblänkar</p><a href="/klamdagar/{y}/">Klämdagar {y}</a>'
             f'<a href="/kalender/{y}/{max(TODAY.month if y == TODAY.year else 1, 1)}/">Kalender {hol.MONTHS[(TODAY.month if y == TODAY.year else 1) - 1]} {y}</a>'
-            f'<a href="/{y + 1}/">Röda dagar {y + 1}</a><a href="/skollov/{y}/">Skollov {y}</a>{extra}</div></div></aside>')
+            f'{nxt}<a href="/skollov/{y}/">Skollov {y}</a>{extra}</div></div></aside>')
 
 
 def stats(red, weekday_red, klam, cls=""):
@@ -336,12 +337,14 @@ def months_grid(y):
 def page_month(y, m):
     names = {h["date"]: h for h in hol.year(y)}; klam_dates = {d for k in hol.klamdagar(y) for d in k["take"]}
     prev_m, next_m = ((y, m - 1) if m > 1 else (y - 1, 12)), ((y, m + 1) if m < 12 else (y + 1, 1))
+    prev_a = f'<a href="/kalender/{prev_m[0]}/{prev_m[1]}/">← {hol.MONTHS[prev_m[1]-1].capitalize()}</a>' if prev_m[0] in YEARS else ""
+    next_a = f'<a href="/kalender/{next_m[0]}/{next_m[1]}/">{hol.MONTHS[next_m[1]-1].capitalize()} →</a>' if next_m[0] in YEARS else ""
     heads = '<div class="h"></div>' + "".join(f'<div class="h">{w[:3]}</div>' for w in hol.WEEKDAYS)
     in_month = [h for h in hol.year(y) if h["date"].month == m]
     body = f"""<div class="wrap cols"><div>
 <h1>Kalender {hol.MONTHS[m-1]} {y}</h1>
 <p>Månadskalender för {hol.MONTHS[m-1]} {y} med veckonummer, röda dagar (●) och klämdagar (◐).{" " + "; ".join(f"{h['name']} {hol.WEEKDAYS[h['date'].weekday()]} {h['date'].day} {hol.MONTHS[m-1]}" for h in in_month) + "." if in_month else ""}</p>
-<nav class="monthnav" aria-label="Månad"><a href="/kalender/{prev_m[0]}/{prev_m[1]}/">← {hol.MONTHS[prev_m[1]-1].capitalize()}</a><a href="/{y}/">Hela {y}</a><a href="/kalender/{next_m[0]}/{next_m[1]}/">{hol.MONTHS[next_m[1]-1].capitalize()} →</a></nav>
+<nav class="monthnav" aria-label="Månad">{prev_a}<a href="/{y}/">Hela {y}</a>{next_a}</nav>
 <div class="kal" role="grid" aria-label="{hol.MONTHS[m-1]} {y}">{heads}{month_cells(y, m, names, klam_dates)}</div>
 <p class="small"><a href="javascript:print()">⎙ Skriv ut</a></p>
 <h2>Hela {y}</h2>
@@ -391,6 +394,14 @@ def page_day(slug):
             "body": named_common(slug, name, answer, faqs, table, target, C.DAYS[slug].format(y=TODAY.year)), "head": head}
 
 
+def group_desc(name, answer, dates):
+    """Meta description: the full answer if it fits, else just the dates."""
+    if len(answer) <= 160:
+        return answer
+    short = f"{name} {TODAY.year}: {dates}."
+    return short if len(short) <= 160 else short[:short.rfind(",", 0, 157)] + " m.fl."
+
+
 def page_group(slug):
     name, members = hol.GROUPS[slug]
     line = lambda y: ", ".join(f"{hol.DAYS[m][0].lower()} {hol.sv(hol.DAYS[m][2](y), with_year=False)}" for m in members)
@@ -404,7 +415,7 @@ def page_group(slug):
     table = f'<table>{caption(f"{name} de närmaste fem åren")}<thead><tr><th scope="col">År</th>' + "".join(f'<th scope="col" class="{"datum" if i == 0 else "d"}">{hol.DAYS[m][0]}</th>' for i, m in enumerate(members)) + f"</tr></thead><tbody>{rows}</tbody></table>"
     d0 = hol.DAYS[members[0]][2](TODAY.year); target = d0 if d0 >= TODAY else hol.DAYS[members[0]][2](TODAY.year + 1)
     body = named_common(slug, name, answer, faqs, table, target, C.GROUPS[slug].format(y=TODAY.year)).replace('<div class="faq">', '<p>' + " · ".join(f'<a href="/{m}/">{hol.DAYS[m][0]}</a>' for m in members) + '</p><div class="faq">')
-    return {"route": f"/{slug}/", "title": f"{name} {TODAY.year} – alla datum", "desc": answer, "priority": "0.9", "body": body, "head": faq(faqs)}
+    return {"route": f"/{slug}/", "title": f"{name} {TODAY.year} – alla datum", "desc": group_desc(name, answer, line(TODAY.year)), "priority": "0.9", "body": body, "head": faq(faqs)}
 
 
 def generated():
