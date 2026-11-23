@@ -65,7 +65,7 @@ class Dates(unittest.TestCase):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         subprocess.run([sys.executable, "tools/build.py"], cwd=root, check=True, capture_output=True)
         home = open(os.path.join(root, "dist/index.html"), encoding="utf-8").read()
-        self.assertIn("<h1>När är jag ledig nästa gång?</h1>", home)
+        self.assertIn("<h1>Vilken vecka är det höstlov? Vecka 44", home)
         self.assertNotIn("<h1>Lediga dagar", home)
         kal = open(os.path.join(root, "dist/kalender/2026/8/index.html"), encoding="utf-8").read()
         self.assertIn('<meta name="robots" content="noindex, follow">', kal)

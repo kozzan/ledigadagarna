@@ -182,17 +182,25 @@ def page_home():
              f'som ligger vecka 7–10 beroende på län. <a href="/skollov/{y}/">Skollov {y} per län →</a></p>' if TODAY <= hl_end else
              f'<p>Nästa lov med fast vecka är sportlovet {y + 1}, vecka 7–10 beroende på län. Höstlovet {y + 1} är vecka {hv}. '
              f'<a href="/skollov/{y + 1}/">Skollov {y + 1} per län →</a></p>')
+    hl_y = y if TODAY <= hl_end else y + 1
+    hl_answer = (f'Höstlovet {hl_y} är vecka {hv}, {wk(hl_y, hv)}. ' + (f'Höstlovet {y} har redan varit. ' if hl_y != y else '') +
+                 f'Vecka {hv} gäller bland annat i Stockholm och Lerum, men kontrollera din kommuns läsårstider.')
+    hl_rows = "".join(f'<tr><th scope="row">{x}</th><td class="d">V. {hv}</td><td class="datum">{wk(x, hv)}</td></tr>' for x in (y, y + 1))
     def yr(x):
         red = [h for h in hol.year(x) if h["red"]]; k = hol.klamdagar(x)
         return (f'<tr><th scope="row"><a href="/{x}/">{x}</a></th><td class="datum">{len(red)}</td>'
                 f'<td class="d">{sum(h["date"].weekday() < 5 for h in red)}</td><td class="d"><a href="/klamdagar/{x}/">{len(k)}</a></td></tr>')
     body = f"""<div class="wrap cols"><div>
-<h1>När är jag ledig nästa gång?</h1>
+<h1>Vilken vecka är det höstlov? Vecka {hv} – och när du är ledig nästa gång</h1>
+<p>{hl_answer}</p>
 <p>Nästa röda dag är {nxt_red["name"].lower()}, {t(d)} (vecka {hol.week(d)}), <span data-countdown="{d.isoformat()}">{days_until(d)}</span>. Just nu är det vecka {hol.week(TODAY)}.</p>
 <div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
 <div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
 <h2>Kommande lediga dagar</h2>
 <div class="tablewrap"><table>{caption("De närmaste lediga dagarna")}<thead><tr><th scope="col">Dag</th><th scope="col" class="datum">Datum</th><th scope="col" class="d">Vecka</th><th scope="col" class="d">När</th></tr></thead><tbody>{rows}</tbody></table></div>
+<h2>Höstlov: vecka och datum</h2>
+<div class="tablewrap"><table>{caption("Höstlov per år")}<thead><tr><th scope="col">År</th><th scope="col" class="d">Vecka</th><th scope="col" class="datum">Måndag–söndag</th></tr></thead><tbody>{hl_rows}</tbody></table></div>
+<p>Höstlovet är vecka {hv} bland annat i Stockholm och Lerum. Exakta datum anges i varje kommuns läsårstider. Se till exempel <a href="https://grundskola.stockholm/en/school-terms-and-vacation-periods-for-compulsory-school/" rel="noopener">Stockholms grundskolor</a> (26–30 oktober 2026) och <a href="https://lerum.se/utbildning-och-barnomsorg/gemensamt-for-forskolor-och-skolor-i-lerums-kommun/lasarstider-for-forskolor-och-skolor" rel="noopener">Lerums kommun</a> (26–30 oktober 2026 och 1–5 november 2027). <a href="/skollov/{hl_y}/">Skollov {hl_y} per län →</a></p>
 <h2>Nästa klämdag</h2>
 {klam_p}
 <h2>Nästa skollov</h2>
@@ -203,8 +211,8 @@ def page_home():
 <div class="tablewrap"><table>{caption("Röda dagar och klämdagar per år")}<thead><tr><th scope="col">År</th><th scope="col" class="datum">Röda dagar</th><th scope="col" class="d">På vardagar</th><th scope="col" class="d">Klämdagar</th></tr></thead><tbody>{"".join(yr(x) for x in YEARS)}</tbody></table></div>
 {C.HOME.format(y=y)}
 </div>{sidebar(y)}</div>"""
-    return {"route": "/", "title": "Lediga dagar – nästa röda dag, klämdag och lov",
-            "desc": f"Nästa röda dag är {nxt_red['name'].lower()} {hol.sv(d)}. Kommande lediga dagar, nästa klämdag och nästa skollov, alltid räknat från idag.",
+    return {"route": "/", "title": f"Vilken vecka är det höstlov? Vecka {hv}, datum {hl_y}",
+            "desc": f"Höstlovet {hl_y} är vecka {hv}, {hol.sv(week_range(hl_y, hv)[0])}–{hol.sv(week_range(hl_y, hv)[1])}. Dessutom nästa röda dag, nästa klämdag och nästa skollov.",
             "priority": "1.0", "body": body}
 
 
