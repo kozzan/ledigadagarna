@@ -1,6 +1,6 @@
 <!--meta
-title: Semesterlagen enkelt förklarad – 25 dagar, sparade och röda dagar
-desc: Semesterlagen på vanlig svenska: 25 semesterdagar, fyra veckor i juni–augusti, spara dagar i fem år och vad en semesterdag kostar kring röda dagar och aftnar.
+title: Semesterlagen – semesterdagar, sparade dagar och räknare för betalda dagar
+desc: Semesterlagen på vanlig svenska: 25 semesterdagar, hur många som är betalda om du är ny, spara dagar i fem år och vad en semesterdag kostar. Med räknare.
 priority: 0.8
 -->
 <div class="wrap"><article style="max-width:680px">
@@ -23,13 +23,37 @@ priority: 0.8
 </tbody></table></div>
 
 <h2 id="dagar">Hur många semesterdagar har jag rätt till?</h2>
-<p>25 dagar per semesterår (4 §). Ett semesterår löper från 1 april till 31 mars (3 §). Hur många av dagarna som är betalda beror på hur länge du har varit anställd under tiden innan, och lagen räknar ut det med en formel i 7 §. Den som är nyanställd kan alltså ha färre dagar med semesterlön. Slå upp 7 § eller fråga din arbetsgivare om just din situation.</p>
+<p>25 dagar per semesterår (4 §). Ett semesterår löper från 1 april till 31 mars, och året närmast före kallas intjänandeår (3 §). Börjar anställningen efter 31 augusti under semesteråret har du bara rätt till fem semesterdagar det året (4 §). Hur många av dagarna som är <strong>betalda</strong> beror på hur länge du var anställd under intjänandeåret.</p>
+
+<h2 id="betalda">Räkna ut dina betalda semesterdagar</h2>
+<p>Formeln står i 7 §: ta dagarna du har varit anställd under intjänandeåret, dra av dagar då du varit helt frånvarande utan lön, dela med antalet dagar i intjänandeåret och multiplicera med 25. Blir det ett brutet tal avrundas det uppåt till närmaste hela tal. Frånvaro som är semesterlönegrundande, som sjukdom upp till 180 dagar och föräldraledighet upp till 120 dagar (17–17 b §§), dras inte av. Resten av de 25 dagarna är semesterdagar utan lön, och dem får du avstå från (8 §).</p>
+<div class="tablewrap"><table>
+<caption>Exempel: intjänandeåret 1 april 2025 – 31 mars 2026 (365 dagar), semesteråret 2026/2027</caption>
+<thead><tr><th scope="col">Situation</th><th scope="col" class="d">Uträkning</th><th scope="col">Betalda dagar</th></tr></thead>
+<tbody>
+<tr><th scope="row">Anställd hela intjänandeåret, ingen frånvaro utan lön</th><td class="d">365 / 365 × 25 = 25</td><td><b>25</b></td></tr>
+<tr><th scope="row">Anställd från <time datetime="2025-10-01">1 oktober 2025</time></th><td class="d">182 / 365 × 25 = 12,47</td><td><b>13</b></td></tr>
+<tr><th scope="row">Anställd från <time datetime="2026-01-01">1 januari 2026</time></th><td class="d">90 / 365 × 25 = 6,16</td><td><b>7</b></td></tr>
+<tr><th scope="row">Hela året, men 30 dagars tjänstledighet utan lön</th><td class="d">335 / 365 × 25 = 22,95</td><td><b>23</b></td></tr>
+</tbody></table></div>
+<p>Exemplen är vår egen uträkning av formeln i 7 §. Intjänandeåret 1 april 2027 – 31 mars 2028 har 366 dagar eftersom februari 2028 har 29 dagar. Kollektivavtal kan ge fler dagar eller räkna på annat sätt.</p>
+<form class="calc" id="betcalc" onsubmit="return false">
+<p><label>Intjänandeår <select id="bc-ar">
+<option value="2024">1 april 2024 – 31 mars 2025</option>
+<option value="2025" selected>1 april 2025 – 31 mars 2026</option>
+<option value="2026">1 april 2026 – 31 mars 2027</option>
+<option value="2027">1 april 2027 – 31 mars 2028</option>
+</select></label></p>
+<p><label>Anställd från (lämna tomt om hela året) <input type="date" id="bc-start"></label></p>
+<p><label>Dagar helt frånvarande utan lön (ej semesterlönegrundande) <input type="number" id="bc-fran" min="0" step="1" value="0" inputmode="numeric"></label></p>
+<output for="bc-ar bc-start bc-fran" id="bc-ut" aria-live="polite"><p>Betalda semesterdagar: <b>25</b> (365 / 365 × 25)</p></output>
+</form>
 
 <h2 id="sommar">När får jag ta semestern?</h2>
 <p>Ni kan komma överens om när du är ledig. Om ni inte gör det bestämmer arbetsgivaren (11 §), men enligt 12 § ska du, om inget annat avtalats, få minst fyra veckor i följd under juni–augusti. Det brukar kallas huvudsemestern. Semester får läggas utanför de månaderna bara av särskilda skäl.</p>
 
 <h2 id="spara">Spara semesterdagar</h2>
-<p>Du kan spara dagar om du har mer än 20 semesterdagar med semesterlön ett semesterår (18 §). Eftersom rätten är 25 dagar handlar det om dagarna ovanför 20, men lagtexten anger inte något eget tak i antal dagar. Varje sparad dag måste tas ut inom fem år från utgången av det semesterår då den sparades. Under ett år då du tar ut sparade dagar får du inte spara nya. Kollektivavtalet kan ha egna regler, så kontrollera det innan du planerar en längre ledighet.</p>
+<p>Du kan spara dagar om du har mer än 20 semesterdagar med semesterlön ett semesterår (18 §). Med 25 betalda dagar kan du alltså spara upp till fem dagar det året. En dag som sparas under semesteråret 2026/2027, som slutar 31 mars 2027, ska läggas ut senast 31 mars 2032. Vill du ta ut sparade dagar utan koppling till den vanliga semestern ska du säga till arbetsgivaren senast två månader i förväg, om inget annat avtalats (19 §). Slutar du med sparade dagar kvar får du semesterersättning för dem (<a href="/semesterlon/#semesterersattning">28–29 §§</a>). Eftersom rätten är 25 dagar handlar det om dagarna ovanför 20, men lagtexten anger inte något eget tak i antal dagar. Varje sparad dag måste tas ut inom fem år från utgången av det semesterår då den sparades. Under ett år då du tar ut sparade dagar får du inte spara nya. Kollektivavtalet kan ha egna regler, så kontrollera det innan du planerar en längre ledighet.</p>
 
 <h2 id="kostnad">Vad kostar en ledig dag i semesterdagar?</h2>
 <p>Bara dagar som du annars skulle arbeta tar semesterdagar. Lördag, söndag, röda dagar, midsommarafton, julafton och nyårsafton jämställs med söndag (3 a §) och går inte åt när de ligger mitt i en semesterperiod. Det är därför klämdagar lönar sig. Tabellen gäller dig som arbetar måndag–fredag.</p>
@@ -46,6 +70,8 @@ priority: 0.8
 <p>Vilka dagar som är röda, och vilka vardagar som blir klämdagar, ser du på <a href="/">startsidan</a>, där varje år har sin egen tabell. Aftnarna är inga röda dagar, men tar ändå ingen semesterdag just på grund av 3 a §.</p>
 
 <h2 id="faq">Vanliga frågor</h2>
+<h3>Hur många betalda semesterdagar får jag som nyanställd?</h3>
+<p>Enligt 7 § räknas de fram ur hur stor del av intjänandeåret du var anställd, gånger 25, avrundat uppåt. Anställd från 1 oktober 2025 ger 13 betalda dagar semesteråret 2026/2027.</p>
 <h3>Hur länge kan jag spara semesterdagar?</h3>
 <p>En sparad dag ska tas ut inom fem år från utgången av det semesterår då den sparades (18 §).</p>
 <h3>Kan arbetsgivaren bestämma när jag tar semester?</h3>
@@ -55,13 +81,30 @@ priority: 0.8
 
 <h2 id="kallor">Källor</h2>
 <ul>
-<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">Semesterlag (1977:480)</a>, riksdagen.se: 2, 3, 3 a, 4, 7, 11, 12 och 18 §§.</li>
+<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">Semesterlag (1977:480)</a>, riksdagen.se: 2, 3, 3 a, 4, 7, 8, 11, 12, 17–17 b, 18, 19, 28 och 29 §§.</li>
 </ul>
 <p class="meta">Sidan är en förenklad sammanfattning och ersätter inte lagtexten. Vad som gäller dig kan påverkas av kollektivavtal och anställningsavtal.</p>
 </article></div>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Hur många semesterdagar har man rätt till?","acceptedAnswer":{"@type":"Answer","text":"Enligt 4 § semesterlagen har en arbetstagare rätt till 25 semesterdagar varje semesterår. Semesteråret går från 1 april till 31 mars."}},
 {"@type":"Question","name":"När ska huvudsemestern tas?","acceptedAnswer":{"@type":"Answer","text":"Om inget annat avtalats ska semestern enligt 12 § läggas så att arbetstagaren får minst fyra veckor i följd under juni–augusti."}},
+{"@type":"Question","name":"Hur många betalda semesterdagar får man som nyanställd?","acceptedAnswer":{"@type":"Answer","text":"Enligt 7 § semesterlagen: dagarna du var anställd under intjänandeåret minus dagar helt frånvarande utan lön, delat med dagarna i intjänandeåret, gånger 25, avrundat uppåt. Anställd från 1 oktober 2025 ger 13 betalda dagar."}},
 {"@type":"Question","name":"Hur länge kan man spara semesterdagar?","acceptedAnswer":{"@type":"Answer","text":"Enligt 18 § kan dagar ovanför 20 sparas, och en sparad dag ska tas ut inom fem år från utgången av det semesterår då den sparades."}},
 {"@type":"Question","name":"Kostar midsommarafton, julafton och nyårsafton en semesterdag?","acceptedAnswer":{"@type":"Answer","text":"Nej. Enligt 3 a § jämställs de med söndag och räknas inte som semesterdagar."}}
 ]}</script>
+<script>
+(function () {
+  var f = document.getElementById("betcalc"); if (!f) return;
+  var DAY = 86400000;
+  function run() {
+    var y = +document.getElementById("bc-ar").value, a = Date.UTC(y, 3, 1), z = Date.UTC(y + 1, 2, 31);
+    var total = Math.round((z - a) / DAY) + 1, sv = document.getElementById("bc-start").value, start = a, out = document.getElementById("bc-ut");
+    if (sv) { var p = sv.split("-"); start = Math.max(a, Date.UTC(+p[0], +p[1] - 1, +p[2])); }
+    if (start > z) { out.innerHTML = "<p>Anställningen började efter intjänandeåret: inga betalda dagar från det året.</p>"; return; }
+    var emp = Math.round((z - start) / DAY) + 1, fr = Math.max(0, Math.min(emp, parseInt(document.getElementById("bc-fran").value, 10) || 0));
+    var q = (emp - fr) / total * 25, n = Math.ceil(q - 1e-9);
+    out.innerHTML = "<p>Betalda semesterdagar: <b>" + n + "</b> (" + (emp - fr) + " / " + total + " × 25 = " + q.toFixed(2).replace(".", ",") + ")</p>";
+  }
+  f.addEventListener("input", run); f.addEventListener("change", run); run();
+})();
+</script>

@@ -38,6 +38,89 @@ SKOLLOV = json.load(open(os.path.join(SITE, "data/skollov.json"), encoding="utf-
 
 esc = H.escape
 t = lambda d, **k: f'<time datetime="{d.isoformat()}">{hol.sv(d, **k)}</time>'
+# SITE-64: kept for visitors, out of Google's index and the sitemap (thin single-date pages, past years).
+NOINDEX = '<meta name="robots" content="noindex, follow">'
+# Days that belong to a group page (påsk, midsommar, jul) live there now; their old URLs redirect.
+GROUP_OF = {m: g for g, (_, ms) in hol.GROUPS.items() for m in ms}
+PLAN_DAYS = (1, 2, 3, 4, 5, 10, 15, 20)
+SUMMER = {6, 7, 8}
+
+
+def day_url(slug):
+    g = GROUP_OF.get(slug)
+    return f"/{g}/#{slug}" if g else f"/{slug}/"
+
+
+def short(d):
+    return f'<time datetime="{d.isoformat()}">{hol.WEEKDAYS[d.weekday()][:3]} {d.day} {hol.MONTHS[d.month-1][:3]}</time>'
+
+
+def take_ranges(take):
+    """[dates] -> '22–25 mar + 30 mar': consecutive calendar dates folded into ranges."""
+    groups = []
+    for d in take:
+        if groups and (d - groups[-1][-1]).days == 1: groups[-1].append(d)
+        else: groups.append([d])
+    return " + ".join(f"{g[0].day}{'–' + str(g[-1].day) if len(g) > 1 else ''} {hol.MONTHS[g[-1].month-1][:3]}"
+                      if g[0].month == g[-1].month else
+                      f"{g[0].day} {hol.MONTHS[g[0].month-1][:3]}–{g[-1].day} {hol.MONTHS[g[-1].month-1][:3]}" for g in groups)
+
+
+def brk(b):
+    a, z = b["run"]
+    return f'{short(a)} – {short(z)}{" " + str(z.year) if z.year != a.year else ""}'
+
+
+def plan_table(y):
+    """SITE-64: n semester days -> the longest breaks, computed. Answer in the HTML; no JS needed."""
+    rows = []
+    for n in PLAN_DAYS:
+        best = hol.best_breaks(y, n, 3)
+        if not best: continue
+        b = best[0]
+        alts = "<br>".join(f'{brk(x)} <span class="meta">({x["days"]} dagar)</span>' for x in best[1:]) or "<span class=none>—</span>"
+        summer = hol.best_breaks(y, n, 1, SUMMER) if n >= 5 else []
+        s = (f'{brk(summer[0])} <span class="meta">({summer[0]["days"]} dagar, ta ut {take_ranges(summer[0]["take"])})</span>'
+             if summer else "<span class=none>—</span>")
+        m = f'<span class="sub meta m">Sommar: {brk(summer[0])}, {summer[0]["days"]} dagar</span>' if summer else ""
+        rows.append(f'<tr><th scope="row">{n}</th><td>{brk(b)}<span class="sub meta">Ta ut {take_ranges(b["take"])}</span>{m}</td>'
+                    f'<td class="datum"><b>{b["days"]}</b></td><td class="d">{alts}</td><td class="d">{s}</td></tr>')
+    return (f'<table>{caption(f"Längsta ledigheten {y} per antal semesterdagar")}<thead><tr><th scope="col">Semesterdagar</th>'
+            f'<th scope="col">Bästa ledigheten</th><th scope="col" class="datum">Lediga dagar</th>'
+            f'<th scope="col" class="d">Fler alternativ</th><th scope="col" class="d">Bäst på sommaren (jun–aug)</th></tr></thead><tbody>{"".join(rows)}</tbody></table>')
+
+
+def plan_mini(y):
+    rows = "".join(
+        f'<tr><th scope="row">{n}</th><td>{brk(b)}<span class="sub meta">Ta ut {take_ranges(b["take"])}</span></td><td class="datum"><b>{b["days"]}</b></td></tr>'
+        for n in (1, 4, 5, 10) for b in hol.best_breaks(y, n, 1))
+    return (f'<table>{caption(f"Smartast semester {y}")}<thead><tr><th scope="col">Semesterdagar</th><th scope="col">Längsta ledigheten</th>'
+            f'<th scope="col" class="datum">Lediga dagar</th></tr></thead><tbody>{rows}</tbody></table>')
+
+
+def workdays_table(y):
+    wd = hol.workdays_by_month(y)
+    rows = "".join(f'<tr><th scope="row"><a href="/kalender/{y}/{m}/">{hol.MONTHS[m-1].capitalize()}</a></th><td class="datum">{w}</td></tr>' for m, w in wd)
+    return (f'<table>{caption(f"Arbetsdagar per månad {y}")}<thead><tr><th scope="col">Månad</th><th scope="col" class="datum">Arbetsdagar</th></tr></thead>'
+            f'<tbody>{rows}<tr><th scope="row">Hela året</th><td class="datum"><b>{sum(w for _, w in wd)}</b></td></tr></tbody></table>')
+
+
+def past(page, y):
+    """SITE-64: a past year's page stays for visitors but leaves the index and the sitemap."""
+    if y < TODAY.year:
+        page = {**page, "sitemap": False, "head": NOINDEX + page.get("head", "")}
+    return page
+
+
+def plan_faq(y):
+    out = []
+    for n in (1, 4, 5):
+        b = hol.best_breaks(y, n, 1)
+        if b:
+            a, z = b[0]["run"]
+            out.append((f"Hur blir man ledig längst med {n} semesterdag{'ar' if n > 1 else ''} {y}?",
+                        f"Ta ut {take_ranges(b[0]['take'])} {b[0]['take'][0].year}, så är du ledig {hol.sv(a)} – {hol.sv(z)}, {b[0]['days']} dagar i rad."))
+    return out
 
 
 def mount_ads(page):
@@ -91,7 +174,7 @@ def red_table(y, klam):
         status = "Röd dag" if h["red"] else "Ledig" if h["off"] else "Märkesdag"
         sub = " · ".join(x for x in [hol.WEEKDAYS[d.weekday()].capitalize(), f"V. {hol.week(d)}", k] if x)
         rows.append(
-            f'<tr><td><a class="name" href="/{h["slug"]}/">{h["name"]}</a><span class="sub meta m">{sub}</span></td>'
+            f'<tr><td><a class="name" href="{day_url(h["slug"])}">{h["name"]}</a><span class="sub meta m">{sub}</span></td>'
             f'<td class="d">{hol.WEEKDAYS[d.weekday()].capitalize()}</td>'
             f'<td class="datum">{dot(h)}<time datetime="{d.isoformat()}">{d.day} {hol.MONTHS[d.month-1][:3]}</time></td>'
             f'<td class="d">V. {hol.week(d)}</td><td class="d">{status}</td>'
@@ -116,7 +199,7 @@ def stats(red, weekday_red, klam, cls=""):
 
 
 def named_list(y):
-    return '<div class="list2">' + "".join(f'<a href="/{h["slug"]}/">{h["name"]}</a>' for h in hol.year(y)) + "</div>"
+    return '<div class="list2">' + "".join(f'<a href="{day_url(h["slug"])}">{h["name"]}</a>' for h in hol.year(y)) + "</div>"
 
 
 # ------------------------------------------------------------------ pages
@@ -128,11 +211,11 @@ def page_year(y):
     if nxt:
         d = nxt["date"]
         hero = (f'<section class="hero"><div class="num" aria-hidden="true">{d.day}</div><div>'
-                f'<p class="meta">Nästa röda dag <span class="rod">●</span></p><p class="name"><a href="/{nxt["slug"]}/">{nxt["name"]}</a></p>'
+                f'<p class="meta">Nästa röda dag <span class="rod">●</span></p><p class="name"><a href="{day_url(nxt["slug"])}">{nxt["name"]}</a></p>'
                 f'<p class="meta"><time datetime="{d.isoformat()}">{hol.WEEKDAYS[d.weekday()]} {d.day} {hol.MONTHS[d.month-1]}</time><br>'
                 f'V. {hol.week(d)} · <span data-countdown="{d.isoformat()}">{days_until(d)}</span></p></div>{stats(red, weekday_red, klam)}</section>')
     body = f"""<div class="wrap cols"><div>
-<h1>Lediga dagar {y}</h1>
+<h1>Röda dagar och lediga dagar {y}</h1>
 <p>Under {y} har Sverige {len(red)} röda dagar, varav {len(weekday_red)} infaller på en vardag. Med rätt {len(klam)} klämdagar blir det betydligt fler lediga dagar. Alla datum nedan, med veckonummer.</p>
 <div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
 {hero}
@@ -144,6 +227,13 @@ def page_year(y):
 <div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
 <h2>Klämdagar {y}</h2>
 <p>{f'Ta {sum(len(k["take"]) for k in klam)} semesterdagar och få {sum(k["days"] for k in klam)} lediga dagar.' if klam else "Inga klämdagar i år."} <a href="/klamdagar/{y}/">Se alla klämdagar {y} →</a></p>
+<h2 id="semester">Smartast semester {y}</h2>
+<p>Den längsta sammanhängande ledigheten {y} för ett visst antal semesterdagar, uträknad dag för dag ur röda dagar, aftnar och helger.</p>
+<div class="tablewrap">{plan_mini(y)}</div>
+<p><a href="/klamdagar/{y}/#planera">Planera med 1–20 semesterdagar, med alternativ och sommarförslag →</a></p>
+<h2 id="arbetsdagar">Arbetsdagar {y}</h2>
+<p>{y} har {sum(w for _, w in hol.workdays_by_month(y))} arbetsdagar för den som arbetar måndag–fredag. Röda dagar och midsommar-, jul- och nyårsafton är inte räknade som arbetsdagar.</p>
+<div class="tablewrap">{workdays_table(y)}</div>
 <h2>Skollov {y}</h2>
 <p>Sportlov, påsklov, sommarlov, höstlov och jullov. <a href="/skollov/{y}/">Se alla lov för din region →</a></p>
 {C.HUB["year"].format(y=y)}
@@ -153,9 +243,9 @@ def page_year(y):
 <h2>Kalender {y}</h2>
 {months_grid(y)}
 </div>{sidebar(y)}</div>"""
-    return {"route": f"/{y}/", "title": f"Lediga dagar {y} – alla röda dagar, klämdagar och lov",
-            "desc": f"Alla röda dagar {y} med veckonummer, klämdagar och skollov. {len(red)} helgdagar, {len(klam)} klämdagar.",
-            "priority": "0.9", "body": body}
+    return past({"route": f"/{y}/", "title": f"Röda dagar {y} – helgdagar, klämdagar och arbetsdagar",
+            "desc": f"Alla röda dagar {y} med veckonummer, klämdagar, arbetsdagar per månad och smartaste semestern. {len(red)} helgdagar, {len(klam)} klämdagar.",
+            "priority": "0.9", "body": body, "head": faq(plan_faq(y))}, y)
 
 
 def page_home():
@@ -166,7 +256,7 @@ def page_home():
     klam = next((k for yy in (y, y + 1) for k in hol.klamdagar(yy) if k["take"][0] >= TODAY), None)
     d = nxt_red["date"]; hv = SKOLLOV["hostlov"]
     rows = "".join(
-        f'<tr><td><a class="name" href="/{h["slug"]}/">{h["name"]}</a></td>'
+        f'<tr><td><a class="name" href="{day_url(h["slug"])}">{h["name"]}</a></td>'
         f'<td class="datum">{dot(h)}<time datetime="{h["date"].isoformat()}">{hol.WEEKDAYS[h["date"].weekday()][:3]} {h["date"].day} {hol.MONTHS[h["date"].month-1][:3]} {h["date"].year}</time></td>'
         f'<td class="d">V. {hol.week(h["date"])}</td><td class="d"><span data-countdown="{h["date"].isoformat()}">{days_until(h["date"])}</span></td></tr>'
         for h in ahead)
@@ -238,13 +328,18 @@ def page_klam(y):
 {year_switch("/klamdagar/{}/", y)}
 <div class="legend"><span><span class="sw rod"></span>● Röd dag</span><span><span class="sw klam"></span>◐ Klämdag</span><span><span class="sw helg"></span>Ledig</span><span><span class="sw"></span>Arbetsdag</span><span><span class="sw tagen"></span>◑ Dagen du tar ledigt</span></div>
 {"".join(row(k) for k in klam) if klam else "<p>Inga klämdagar detta år.</p>"}
+<h2 id="planera">Har du X semesterdagar? Så blir ledigheten längst {y}</h2>
+<p>Klämdagarna ovan är bästa utväxlingen dag för dag. Har du fler semesterdagar att lägga visar tabellen den längsta sammanhängande ledigheten {y} för varje antal, plus två andra tillfällen och det bästa på sommaren. Alla perioder är uträknade dag för dag: lördag, söndag, röda dagar och midsommar-, jul- och nyårsafton kostar inga semesterdagar (<a href="/semesterlagen/#kostnad">3 a § semesterlagen</a>).</p>
+<div class="tablewrap">{plan_table(y)}</div>
+<p class="small">Gäller dig som arbetar måndag–fredag. Halvdagar enligt kollektivavtal, som skärtorsdagen, är inte medräknade. Om semestern beviljas avgör du och arbetsgivaren; om ni inte är överens bestämmer arbetsgivaren (11 §).</p>
 {C.HUB["klamdagar"]}
 <div class="ad ad-336x280 desktop-ad">Annons 336×280</div>
 <div class="ad ad-300x250 mobile-ad">Annons 300×250</div>
 <div class="links"><a href="/{y}/">Alla lediga dagar {y} →</a><a href="/skollov/{y}/">Skollov {y} →</a></div>
 </div>{sidebar(y)}</div>"""
-    return {"route": f"/klamdagar/{y}/", "title": f"Klämdagar {y} – så får du flest lediga dagar",
-            "desc": f"Alla klämdagar {y}: ta {take_n} semesterdagar och få {free_n} lediga dagar. Datum, veckor och exakt utfall.", "priority": "0.9", "body": body}
+    return past({"route": f"/klamdagar/{y}/", "title": f"Klämdagar {y} – så får du flest lediga dagar",
+            "desc": f"Alla klämdagar {y}: ta {take_n} semesterdagar och få {free_n} lediga dagar. Plus längsta ledigheten för 1–20 semesterdagar.", "priority": "0.9", "body": body,
+            "head": faq(plan_faq(y))}, y)
 
 
 def week_range(y, w):
@@ -291,9 +386,9 @@ def page_skollov(y):
 <div class="faq">{"".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)}</div>
 <div class="links"><a href="/{y}/">Alla lediga dagar {y} →</a><a href="/klamdagar/{y}/">Klämdagar {y} →</a></div>
 </div>{sidebar(y)}</div>"""
-    return {"route": f"/skollov/{y}/", "title": f"Sportlov och höstlov {y} – vecka och datum för alla län",
+    return past({"route": f"/skollov/{y}/", "title": f"Sportlov och höstlov {y} – vecka och datum för alla län",
             "desc": f"Sportlov {y} vecka för vecka i alla 21 län, och höstlov vecka {hv}. Datum och veckonummer.", "priority": "0.8",
-            "body": body, "head": faq(faqs)}
+            "body": body, "head": faq(faqs)}, y)
 
 
 def moved(route, to):
@@ -357,11 +452,11 @@ def page_month(y, m):
             "head": '<meta name="robots" content="noindex, follow">'}
 
 
-def named_common(slug, name, answer, faqs, table, target, extra):
-    y = TODAY.year
+def named_common(slug, name, answer, faqs, table, target, extra, fy=None):
+    y = TODAY.year; fy = fy or y
     body = f"""<div class="wrap cols"><div>
-<p class="meta crumb"><a href="/">Lediga dagar</a> · <a href="/{y}/">{y}</a> · {name}</p>
-<h1>{name} {y}</h1>
+<p class="meta crumb"><a href="/">Lediga dagar</a> · <a href="/{fy}/">{fy}</a> · {name}</p>
+<h1>{name} {fy}</h1>
 <p>{answer}</p>
 <div class="ad ad-728x90 desktop-ad">Annons 728×90</div>
 <div class="ad ad-320x100 mobile-ad">Annons 320×100</div>
@@ -390,32 +485,74 @@ def page_day(slug):
     head = faq(faqs) + jsonld({"@context": "https://schema.org", "@type": "Event", "name": f"{name} {TODAY.year}", "startDate": d.isoformat(),
                                 "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled",
                                 "location": {"@type": "Country", "name": "Sverige"}})
+    # SITE-64: ~250 words that only state a date; Google left them "crawled, not indexed". Kept for visitors.
     return {"route": f"/{slug}/", "title": f"{name} {TODAY.year} – datum, vecka och röd dag?", "desc": answer, "priority": "0.8",
-            "body": named_common(slug, name, answer, faqs, table, target, C.DAYS[slug].format(y=TODAY.year)), "head": head}
+            "body": named_common(slug, name, answer, faqs, table, target, C.DAYS[slug].format(y=TODAY.year)), "head": NOINDEX + head, "sitemap": False}
 
 
-def group_desc(name, answer, dates):
+def group_desc(name, answer, dates, fy):
     """Meta description: the full answer if it fits, else just the dates."""
     if len(answer) <= 160:
         return answer
-    short = f"{name} {TODAY.year}: {dates}."
+    short = f"{name} {fy}: {dates}."
     return short if len(short) <= 160 else short[:short.rfind(",", 0, 157)] + " m.fl."
 
 
+LAW_HELG = "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/"
+LAW_SEM = "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/"
+
+
+def day_why(slug, name, red):
+    if red:
+        return f'{name} är en allmän helgdag enligt 1 § <a href="{LAW_HELG}" rel="noopener">lag (1989:253) om allmänna helgdagar</a>, alltså en röd dag.'
+    if slug in hol.DE_FACTO_OFF:
+        return (f'{name} är inte en allmän helgdag, men enligt 3 a § <a href="{LAW_SEM}" rel="noopener">semesterlagen</a> jämställs den med söndag, '
+                f'så den räknas inte som semesterdag.')
+    if hol.DAYS[slug][2](TODAY.year).weekday() >= 5:
+        return f"{name} är inte en allmän helgdag, men infaller alltid på en helg."
+    return f"{name} är ingen allmän helgdag."
+
+
 def page_group(slug):
+    """SITE-64: one full page per holiday group, for the next one coming up (fy), with its days merged in."""
     name, members = hol.GROUPS[slug]
+    first = hol.DAYS[members[0]][2]
+    fy = TODAY.year if first(TODAY.year) >= TODAY else TODAY.year + 1
+    d0 = first(fy)
     line = lambda y: ", ".join(f"{hol.DAYS[m][0].lower()} {hol.sv(hol.DAYS[m][2](y), with_year=False)}" for m in members)
-    answer = f"{name} {TODAY.year}: {line(TODAY.year)}. " + " ".join(f"{hol.DAYS[m][0]} är en röd dag." for m in members if hol.DAYS[m][1])
-    faqs = [(f"När är {name.lower()} {TODAY.year}?", f"{name} {TODAY.year}: {line(TODAY.year)}."),
-            (f"När är {name.lower()} {TODAY.year + 1}?", f"{name} {TODAY.year + 1}: {line(TODAY.year + 1)}."),
+    answer = f"{name} {fy}: {line(fy)}. " + " ".join(f"{hol.DAYS[m][0]} är en röd dag." for m in members if hol.DAYS[m][1])
+    faqs = [(f"När är {name.lower()} {fy}?", f"{name} {fy}: {line(fy)}."),
+            (f"När är {name.lower()} {fy + 1}?", f"{name} {fy + 1}: {line(fy + 1)}."),
             (f"Vilka dagar är röda under {name.lower()}?", ", ".join(hol.DAYS[m][0] for m in members if hol.DAYS[m][1]) + ".")]
+    faqs += [(f"Är {hol.DAYS[m][0].lower()} en röd dag?", re.sub(r"<[^>]+>", "", day_why(m, hol.DAYS[m][0], hol.DAYS[m][1]))) for m in members]
+    TEN = range(fy, fy + 10)
     rows = "".join(f'<tr><th scope="row">{y}</th>' + "".join(
         f'<td class="{"datum" if i == 0 else "d"}">{"<span class=rod aria-hidden=true>●</span> " if hol.DAYS[m][1] else ""}<time datetime="{hol.DAYS[m][2](y).isoformat()}">{hol.sv(hol.DAYS[m][2](y), with_year=False)}</time></td>'
-        for i, m in enumerate(members)) + "</tr>" for y in FIVE)
-    table = f'<table>{caption(f"{name} de närmaste fem åren")}<thead><tr><th scope="col">År</th>' + "".join(f'<th scope="col" class="{"datum" if i == 0 else "d"}">{hol.DAYS[m][0]}</th>' for i, m in enumerate(members)) + f"</tr></thead><tbody>{rows}</tbody></table>"
-    d0 = hol.DAYS[members[0]][2](TODAY.year); target = d0 if d0 >= TODAY else hol.DAYS[members[0]][2](TODAY.year + 1)
-    body = named_common(slug, name, answer, faqs, table, target, C.GROUPS[slug].format(y=TODAY.year)).replace('<div class="faq">', '<p>' + " · ".join(f'<a href="/{m}/">{hol.DAYS[m][0]}</a>' for m in members) + '</p><div class="faq">')
-    return {"route": f"/{slug}/", "title": f"{name} {TODAY.year} – alla datum", "desc": group_desc(name, answer, line(TODAY.year)), "priority": "0.9", "body": body, "head": faq(faqs)}
+        for i, m in enumerate(members)) + "</tr>" for y in TEN)
+    table = (f'<table>{caption(f"{name} {fy}–{fy + 9}")}<thead><tr><th scope="col">År</th>' + "".join(
+        f'<th scope="col" class="{"datum" if i == 0 else "d"}">{hol.DAYS[m][0]}</th>' for i, m in enumerate(members)) + f"</tr></thead><tbody>{rows}</tbody></table>")
+    near = [(n, b) for n in (1, 2, 3, 4, 5) for b in hol.best_breaks(fy, n, 1, around=d0)]
+    seen, near_rows = set(), []
+    for n, b in near:
+        if b["days"] in seen: continue
+        seen.add(b["days"])
+        near_rows.append(f'<tr><th scope="row">{n}</th><td>{brk(b)}<span class="sub meta">Ta ut {take_ranges(b["take"])}</span></td><td class="datum"><b>{b["days"]}</b></td></tr>')
+    ledigt = (f'<h2 id="ledigt">Ledigt kring {name.lower()} {fy}</h2>'
+              f'<p>Så lång blir ledigheten runt {hol.DAYS[members[0]][0].lower()} {fy} beroende på hur många semesterdagar du tar ut, uträknat dag för dag för dig som arbetar måndag–fredag.</p>'
+              f'<div class="tablewrap"><table>{caption(f"Ledigt kring {name.lower()} {fy}")}<thead><tr><th scope="col">Semesterdagar</th><th scope="col">Ledig</th><th scope="col" class="datum">Dagar i rad</th></tr></thead>'
+              f'<tbody>{"".join(near_rows)}</tbody></table></div><p><a href="/klamdagar/{fy}/#planera">Fler sätt att lägga semestern {fy} →</a></p>') if near_rows else ""
+    sections = "".join(
+        f'<h2 id="{m}">{hol.DAYS[m][0]} {fy}</h2><p>{hol.DAYS[m][0]} {fy} infaller {t(hol.DAYS[m][2](fy))}, vecka {hol.week(hol.DAYS[m][2](fy))}. {day_why(m, hol.DAYS[m][0], hol.DAYS[m][1])}</p>'
+        for m in members)
+    extra = ledigt + sections + C.GROUPS[slug].format(y=fy)
+    head = faq(faqs) + jsonld({"@context": "https://schema.org", "@type": "Event", "name": f"{name} {fy}", "startDate": d0.isoformat(),
+                                "endDate": hol.DAYS[members[-1]][2](fy).isoformat(),
+                                "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "eventStatus": "https://schema.org/EventScheduled",
+                                "location": {"@type": "Country", "name": "Sverige"}})
+    body = named_common(slug, name, answer, faqs, table, d0, extra, fy=fy).replace(
+        '<div class="faq">', '<p>' + " · ".join(f'<a href="#{m}">{hol.DAYS[m][0]}</a>' for m in members) + '</p><div class="faq">')
+    title = f"{name} {fy} – {hol.DAYS[members[0]][0].lower()} {hol.sv(d0, with_year=False)}"
+    return {"route": f"/{slug}/", "title": title, "desc": group_desc(name, answer, line(fy), fy), "priority": "0.9", "body": body, "head": head}
 
 
 def generated():
@@ -424,7 +561,9 @@ def generated():
     # län pages were thin near-duplicates and got dropped from Google (Sep 2026); folded into the hub
     pages += [moved(f"/skollov/{y}/{lan}/", f"/skollov/{y}/#{lan}") for y in YEARS for lan in SKOLLOV["lan"]]
     pages += [page_month(y, m) for y in YEARS for m in range(1, 13)]
-    pages += [page_day(s) for s in hol.DAYS] + [page_group(s) for s in hol.GROUPS]
+    pages += [page_day(s) for s in hol.DAYS if s not in GROUP_OF] + [page_group(s) for s in hol.GROUPS]
+    # SITE-64: the days of påsk, midsommar and jul were near-duplicates of their group page; merged there.
+    pages += [moved(f"/{s}/", day_url(s)) for s in GROUP_OF]
     return [p for p in pages if p]
 
 

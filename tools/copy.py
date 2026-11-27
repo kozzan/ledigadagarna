@@ -68,10 +68,19 @@ GROUPS["pask"] = """
 """
 
 GROUPS["midsommar"] = """
-<h2>Alltid en fredag och en lördag</h2>
-<p>Sedan 1953 firas midsommar på en helg i stället för på ett fast datum. Midsommardagen är den lördag som infaller mellan 20 och 26 juni, och midsommarafton är fredagen före, mellan 19 och 25 juni. Flytten gjordes för att alla skulle få en sammanhängande ledighet; tidigare låg midsommardagen alltid den 24 juni oavsett veckodag.</p>
-<h2>Ledigt utan semesterdagar</h2>
-<p>Midsommardagen är en röd dag men ligger alltid på en lördag, så den ger ingen extra ledighet för den som arbetar vardagar. Midsommarafton är inte en röd dag enligt lag, men den räknas som söndag i semesterlagen och nästan alla arbetsplatser har stängt. Vill du ha en längre ledighet är torsdagen före midsommarafton en klassisk klämdag: en semesterdag ger fyra dagar ledigt. Många börjar också sin sommarsemester veckan efter midsommar, då stora delar av landet går ned i varv.</p>
+<h2 id="datum">Varför midsommar flyttar sig</h2>
+<p>Enligt 2 § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/" rel="noopener">lag (1989:253) om allmänna helgdagar</a> infaller midsommardagen den lördag som infaller under tiden 20–26 juni. Midsommarafton är dagen före, alltså en fredag mellan 19 och 25 juni. Enligt <a href="https://www.nordiskamuseet.se/aretsdagar/midsommar" rel="noopener">Nordiska museet</a> var midsommaraftonens fasta datum den 23 juni fram till 1952, och från 1953 ligger den alltid på en fredag för att passa bättre in i arbetsveckan.</p>
+<h2 id="rod-dag">Är midsommarafton en röd dag?</h2>
+<p>Nej. Midsommardagen står bland de allmänna helgdagarna i 1 § lagen om allmänna helgdagar, men midsommarafton gör det inte. Däremot säger 3 a § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">semesterlagen</a> att midsommarafton, julafton och nyårsafton jämställs med söndag. Ligger midsommarafton mitt i din semester räknas den alltså inte som en semesterdag. Om du är ledig eller får extra betalt när du arbetar midsommarafton står i ditt kollektivavtal eller anställningsavtal, inte i lagen.</p>
+<h2 id="semester">Semestern runt midsommar</h2>
+<p>Om inget annat avtalats ska du enligt 12 § semesterlagen få minst fyra veckors sammanhängande semester under juni–augusti. Eftersom midsommarafton inte kostar någon semesterdag kan det löna sig att låta ledigheten börja eller sluta vid midsommar. Tabellen ovan visar exakt hur lång ledigheten blir {y} för en till fem semesterdagar.</p>
+<h2 id="kallor">Källor</h2>
+<ul>
+<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/" rel="noopener">Lag (1989:253) om allmänna helgdagar</a>, 1 och 2 §§, riksdagen.se.</li>
+<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">Semesterlag (1977:480)</a>, 3 a och 12 §§, riksdagen.se.</li>
+<li><a href="https://www.nordiskamuseet.se/aretsdagar/midsommar" rel="noopener">Midsommar</a>, Nordiska museet (datumet före och efter 1953).</li>
+</ul>
+<p class="meta">Datumen i tabellerna är uträknade ur lagens regel, inte inskrivna för hand.</p>
 """
 
 GROUPS["jul"] = """

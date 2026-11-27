@@ -154,6 +154,52 @@ def klamdagar(y, max_take=3):
     return merged
 
 
+def best_breaks(y, n, k=3, months=None, around=None):
+    """The k longest unbroken breaks for n semester days taken in year y, longest first, not overlapping.
+    months: only breaks whose taken days all fall in these months (e.g. {6, 7, 8} for summer).
+    around: only breaks that include this date (e.g. midsommarafton).
+    -> [{run:(a,b), take:[dates], days}]. A break is a stretch of off days plus at most n workdays,
+    all of them in y; it may start in December y-1 or end in January y+1 on off days. Ties go to the
+    earlier break. Exact (every window is tried), unlike klamdagar()'s list heuristic."""
+    one = dt.timedelta(1)
+    off = off_days(y - 1) | off_days(y) | off_days(y + 1)
+    lo, hi = D(y, 1, 1), D(y, 12, 31)
+    while (lo - one) in off: lo -= one
+    while (hi + one) in off: hi += one
+    days = [lo + dt.timedelta(i) for i in range((hi - lo).days + 1)]
+    cands, j, work = [], 0, 0
+    for i, a in enumerate(days):
+        # widest window starting at i with <= n workdays
+        while j < len(days) and work + (days[j] not in off) <= n:
+            work += days[j] not in off; j += 1
+        take = [d for d in days[i:j] if d not in off]
+        maximal = (i == 0 or days[i - 1] not in off) and take and (not months or all(d.month in months for d in take)) \
+            and (not around or a <= around <= days[j - 1])
+        if maximal:
+            cands.append({"run": (a, days[j - 1]), "take": take, "days": j - i})
+        work -= days[i] not in off
+    cands.sort(key=lambda c: (-c["days"], c["run"][0]))
+    out = []
+    for c in cands:
+        if all(c["run"][1] < o["run"][0] or c["run"][0] > o["run"][1] for o in out):
+            out.append(c)
+        if len(out) == k: break
+    return out
+
+
+def workdays_by_month(y):
+    """[(month, workdays)]: Monday–Friday that are not red days or de facto aftnar."""
+    off = off_days(y)
+    return [(m, sum(1 for d in range(1, 32) if _ok(y, m, d) and D(y, m, d) not in off)) for m in range(1, 13)]
+
+
+def _ok(y, m, d):
+    try:
+        D(y, m, d); return True
+    except ValueError:
+        return False
+
+
 def sv(d, with_year=True):
     s = f"{WEEKDAYS[d.weekday()]} {d.day} {MONTHS[d.month - 1]}"
     return f"{s} {d.year}" if with_year else s

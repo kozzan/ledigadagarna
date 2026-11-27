@@ -1,10 +1,10 @@
 <!--meta
-title: Semesterlön – så beräknas den och vad du får i handen
-desc: Semesterlön enligt semesterlagen: sammalöneregeln, procentregeln på 12 procent, semestertillägget och när lönen betalas ut. Med räkneexempel.
+title: Semesterlön och semesterersättning – så räknas de, med räknare
+desc: Semesterlön och semesterersättning enligt semesterlagen: sammalöneregeln, procentregeln på 12 procent, semestertillägget och ersättningen när du slutar. Med räknare.
 priority: 0.7
 -->
 <div class="wrap"><article style="max-width:680px">
-<h1>Semesterlön – så beräknas den</h1>
+<h1>Semesterlön och semesterersättning – så beräknas de</h1>
 <p>Har du fast månadslön får du enligt semesterlagen oftast semesterlön enligt sammalöneregeln, alltså din vanliga lön under semestern plus ett semestertillägg på 0,43 procent av månadslönen för varje betald semesterdag; arbetsgivaren kan i stället välja procentregeln, där semesterlönen är 12 procent av den intjänade lönen.</p>
 <p>Reglerna står i <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">semesterlag (1977:480)</a>. Hur många dagar du har rätt till förklarar vi i <a href="/semesterlagen/">semesterlagen enkelt förklarad</a>. Här handlar det om pengarna. Kollektivavtal kan ge mer än lagen, så kontrollera ditt avtal.</p>
 
@@ -20,6 +20,33 @@ priority: 0.7
 
 <h2 id="exempel">Räkneexempel: semestertillägget</h2>
 <p>Med en månadslön på 30 000 kr blir semestertillägget 0,43 procent × 30 000 = 129 kr per betald semesterdag. Tar du fem semesterdagar i rad blir tillägget 645 kr, och med alla 25 dagar 3 225 kr, före skatt. Själva månadslönen betalas som vanligt. Exemplet är vår egen uträkning av lagens procentsats och gäller bara om du har enbart fast månadslön.</p>
+
+<h2 id="semesterersattning">Semesterersättning när anställningen slutar</h2>
+<p>Slutar anställningen innan du har fått ut den semesterlön du tjänat in, ska du i stället få semesterersättning (28 §). Ersättningen bestäms enligt samma grunder som semesterlönen (29 §), alltså enligt sammalöneregeln eller procentregeln, och sparade semesterdagar räknas som om de tagits ut under det semesterår då anställningen upphörde.</p>
+<div class="tablewrap"><table>
+<caption>Semesterersättning enligt semesterlagen</caption>
+<thead><tr><th scope="col">Fråga</th><th scope="col">Vad lagen säger</th><th scope="col" class="d">Paragraf</th></tr></thead>
+<tbody>
+<tr><th scope="row">När får jag semesterersättning?</th><td>När anställningen upphör innan du har fått den semesterlön du tjänat in.</td><td class="d">28 §</td></tr>
+<tr><th scope="row">Hur stor är den?</th><td>Den bestäms enligt grunderna för beräkning av semesterlön. Sparade dagar räknas som om de tagits ut det semesterår då anställningen upphörde.</td><td class="d">29 §</td></tr>
+<tr><th scope="row">Semesterlön i förskott</th><td>Har du fått semesterlön i förskott minskas ersättningen med den. Det gäller inte om förskottet betalades ut mer än fem år före anställningens slut, eller om anställningen upphörde på grund av din sjukdom eller en uppsägning från arbetsgivaren som inte beror på dig personligen (utom vid konkurs), med flera undantag i paragrafen.</td><td class="d">29 a §</td></tr>
+<tr><th scope="row">När betalas den ut?</th><td>Utan oskäligt dröjsmål och senast en månad efter att anställningen upphörde. Går den inte att räkna ut inom en månad ska den betalas inom en vecka efter att hindret upphörde.</td><td class="d">30 §</td></tr>
+<tr><th scope="row">Korta anställningar</th><td>För en anställning som är tänkt att pågå högst tre månader, och inte varar längre, får ni avtala att semester inte läggs ut. Då får du semesterersättning i stället.</td><td class="d">5 §</td></tr>
+</tbody></table></div>
+<h3 id="ersattning-exempel">Räkneexempel: semesterersättning med procentregeln</h3>
+<p>Du har haft 30 000 kr i månaden i sex månader, alltså 180 000 kr i lön, och har inte tagit ut någon betald semester. Med procentregeln blir semesterersättningen 12 procent × 180 000 = 21 600 kr före skatt. Har du tagit ut betald semester under tiden, eller har du rörlig lön eller semesterlönegrundande frånvaro, ser uträkningen annorlunda ut (16 b §). Exemplet är vår egen uträkning av lagens procentsats.</p>
+
+<h2 id="raknare">Räkna själv</h2>
+<p>Räknaren använder samma procentsatser som lagen och ger belopp före skatt. Den gäller bara fast lön; rörliga lönedelar och kollektivavtalets regler är inte med.</p>
+<form class="calc" id="semcalc" onsubmit="return false">
+<p><label>Månadslön (kr) <input type="number" id="sl-lon" min="0" step="100" value="30000" inputmode="numeric"></label></p>
+<p><label>Betalda semesterdagar <input type="number" id="sl-dagar" min="0" max="60" step="1" value="5" inputmode="numeric"></label></p>
+<p><label>Lön intjänad utan att semester tagits ut (kr, för semesterersättning) <input type="number" id="sl-summa" min="0" step="1000" value="180000" inputmode="numeric"></label></p>
+<output for="sl-lon sl-dagar sl-summa" id="sl-ut" aria-live="polite"><ul>
+<li>Semestertillägg (0,43 % per dag, 16 a §): <b>645 kr</b> för 5 dagar</li>
+<li>Semesterersättning med procentregeln (12 %, 16 b §): <b>21 600 kr</b></li>
+</ul></output>
+</form>
 
 <h2 id="intjanande">Frånvaro påverkar antalet betalda dagar</h2>
 <p>Antalet semesterdagar med semesterlön räknas ut med en kvot: dagar du har varit anställd minus dagar med frånvaro som inte är semesterlönegrundande, delat med dagarna i intjänandeåret, gånger 25 (7 §). Därför kan en nyanställd eller den som har varit borta länge få färre betalda dagar.</p>
@@ -37,17 +64,33 @@ priority: 0.7
 <p>För månadsavlönade är det 0,43 procent av månadslönen per betald semesterdag, och för veckoavlönade 1,82 procent av veckolönen (16 a §).</p>
 <h3>Vad är procentregeln?</h3>
 <p>Semesterlönen är tolv procent av den lön som förfallit under intjänandeåret (16 b §).</p>
+<h3>Vad är semesterersättning?</h3>
+<p>Pengar för intjänad semesterlön som du inte hunnit ta ut när anställningen slutar (28 §). Den räknas på samma sätt som semesterlönen (29 §) och ska betalas senast en månad efter att anställningen upphörde (30 §).</p>
 <h3>När betalas semesterlönen ut?</h3>
 <p>I samband med semesterledigheten (26 §). Semesterlön på rörliga lönedelar ska betalas senast en månad efter semesterårets slut.</p>
 
 <h2 id="kallor">Källor</h2>
 <ul>
-<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">Semesterlag (1977:480)</a>, riksdagen.se: 7, 16, 16 a, 16 b, 17, 17 a, 17 b och 26 §§.</li>
+<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">Semesterlag (1977:480)</a>, riksdagen.se: 5, 7, 16, 16 a, 16 b, 17, 17 a, 17 b, 26, 28, 29, 29 a och 30 §§.</li>
 </ul>
 <p class="meta">Sidan är en förenklad sammanfattning och ersätter inte lagtexten. Vad som gäller dig kan påverkas av kollektivavtal och anställningsavtal.</p>
 </article></div>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Hur stort är semestertillägget?","acceptedAnswer":{"@type":"Answer","text":"För månadsavlönade är semestertillägget 0,43 procent av månadslönen per betald semesterdag, och för veckoavlönade 1,82 procent av veckolönen (16 a § semesterlagen)."}},
 {"@type":"Question","name":"Vad är procentregeln för semesterlön?","acceptedAnswer":{"@type":"Answer","text":"Enligt 16 b § är semesterlönen tolv procent av den lön som förfallit under intjänandeåret, med vissa undantag."}},
+{"@type":"Question","name":"Vad är semesterersättning?","acceptedAnswer":{"@type":"Answer","text":"Om anställningen upphör innan du fått den semesterlön du tjänat in får du semesterersättning (28 § semesterlagen). Den beräknas enligt samma grunder som semesterlönen (29 §) och ska betalas senast en månad efter att anställningen upphörde (30 §)."}},
 {"@type":"Question","name":"När betalas semesterlönen ut?","acceptedAnswer":{"@type":"Answer","text":"Enligt 26 § ska semesterlönen betalas ut i samband med semesterledigheten. Semesterlön på rörliga lönedelar förfaller senast en månad efter semesterårets slut."}}
 ]}</script>
+<script>
+(function () {
+  var f = document.getElementById("semcalc"); if (!f) return;
+  var kr = function (x) { return Math.round(x).toLocaleString("sv-SE") + " kr"; };
+  var num = function (id) { var v = parseFloat(document.getElementById(id).value); return isFinite(v) && v > 0 ? v : 0; };
+  function run() {
+    var lon = num("sl-lon"), dagar = num("sl-dagar"), summa = num("sl-summa");
+    document.getElementById("sl-ut").innerHTML = "<ul><li>Semestertillägg (0,43 % per dag, 16 a §): <b>" + kr(lon * 0.0043 * dagar) + "</b> för " + dagar + " dag" + (dagar === 1 ? "" : "ar") +
+      "</li><li>Semesterersättning med procentregeln (12 %, 16 b §): <b>" + kr(summa * 0.12) + "</b></li></ul>";
+  }
+  f.addEventListener("input", run); run();
+})();
+</script>
