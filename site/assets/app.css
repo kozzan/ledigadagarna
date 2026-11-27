@@ -121,3 +121,9 @@ tr:target{outline:2px solid currentColor;outline-offset:-2px}
 :root{--papper:#fff;--ink:#000;--ink-2:#000;--ink-3:#333;--harstreck:#000;--harstreck-svag:#000;--ledig:#EEE;--rod:#000;--pa-rod:#fff;--raster:#D6D6D6;--yta:#fff}
 body{font-size:13px}.wrap{max-width:794px;padding:0}h1{font-size:28px;border-bottom:2px solid #000;padding-bottom:8px}
 .kal{border:1px solid #000}.kal>*{min-height:86px}.kal .rod{background:#fff}.kal .rod .n{color:#000}.kal .rod .n::after{content:" ●"}.kal .rod .label{color:#000;display:block}.kal .klam .n::after{content:" ◐"}}
+/* SITE-64: the small calculators on /semesterlon/ and /semesterlagen/; the answer is also in the text above them */
+.calc{background:var(--yta);border:1px solid var(--harstreck-svag);padding:16px;margin:16px 0}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:15px;color:var(--ink-2)}
+.calc input,.calc select{font:inherit;font-size:17px;color:var(--ink);background:var(--papper);border:1px solid var(--harstreck);padding:10px;min-height:44px;max-width:100%}
+.calc output{display:block;font-size:17px}.calc output ul{margin:0;padding-left:20px}
+@media print{.calc{display:none}}

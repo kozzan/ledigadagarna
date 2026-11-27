@@ -12,16 +12,16 @@ DAYS = {}
 
 HUB["year"] = """
 <h2>Så fungerar röda dagar</h2>
-<p>En röd dag är en allmän helgdag enligt lag (1989:253) om allmänna helgdagar. Sverige har tretton sådana dagar om året: nyårsdagen, trettondedag jul, långfredagen, påskdagen, annandag påsk, första maj, Kristi himmelsfärdsdag, pingstdagen, nationaldagen, midsommardagen, alla helgons dag, juldagen och annandag jul. Lagen räknar också varje söndag som helgdag, vilket är skälet till att söndagarna är röda i almanackan.</p>
-<p>Sex av dagarna har fasta datum, fem följer påsken och två ligger alltid på en lördag. Därför varierar antalet röda dagar som hamnar på en vardag från år till år. Infaller en röd dag på en helg får du ingen ersättningsdag, till skillnad från i till exempel Storbritannien, och det är det som gör att vissa år känns snåla och andra generösa.</p>
+<p>En röd dag är en allmän helgdag enligt 1 § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/" rel="noopener">lag (1989:253) om allmänna helgdagar</a>: söndagar, däribland påskdagen och pingstdagen, samt nyårsdagen, trettondedag jul, första maj, juldagen, annandag jul, långfredagen, annandag påsk, Kristi himmelsfärdsdag, nationaldagen, midsommardagen och alla helgons dag. Det blir tretton namngivna dagar om året.</p>
+<p>Enligt 2 § har sex av dem fasta datum (nyårsdagen, trettondedag jul, första maj, nationaldagen, juldagen och annandag jul), fem räknas från påskdagen (långfredagen, påskdagen, annandag påsk, Kristi himmelsfärdsdag och pingstdagen) och två ligger alltid på en lördag (midsommardagen och alla helgons dag). Därför varierar antalet röda dagar som hamnar på en vardag från år till år; tabellen ovan visar hur det blir {y}.</p>
 <h2>Aftnar och andra lediga dagar</h2>
-<p>Midsommarafton, julafton och nyårsafton är inte röda dagar, men i praktiken lediga för de allra flesta. Semesterlagen jämställer dem med söndag, så de kostar inga semesterdagar. Många kollektivavtal ger dessutom halv dag på skärtorsdagen, valborgsmässoafton, allhelgonaafton och trettondagsafton. Vad som gäller på din arbetsplats står i kollektivavtalet eller i personalhandboken.</p>
+<p>Midsommarafton, julafton och nyårsafton är inte allmänna helgdagar, men enligt 3 a § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">semesterlagen</a> jämställs de med söndag och räknas därför inte som semesterdagar. I tabellen står de som Ledig. Vad som gäller på din arbetsplats står i ditt avtal.</p>
 <h2>Röda dagar och semester</h2>
-<p><a href="/semesterlagen/">Semesterlagen</a> ger dig minst 25 semesterdagar om året. Lördagar, söndagar och röda dagar räknas inte som semesterdagar, vilket är hela poängen med klämdagar: en semesterdag som placeras mellan en röd dag och en helg köper flera lediga dagar. På sidan för klämdagar finns en dag-för-dag-remsa för varje tillfälle {y} som visar exakt vilka datum du behöver ta ut.</p>
+<p>Du har rätt till 25 semesterdagar per semesterår (4 § semesterlagen), och lördag, söndag, röda dagar och de tre aftnarna räknas inte som semesterdagar (3 a §). Det är hela poängen med klämdagar: en semesterdag mellan en röd dag och en helg ger flera lediga dagar. Tabellen Smartast semester ovan och sidan för klämdagar visar exakt vilka datum du behöver ta ut {y}. Reglerna förklaras på sidan om <a href="/semesterlagen/">semesterlagen</a>.</p>
 <h2>Vad kolumnerna betyder</h2>
-<p>Typ-kolumnen skiljer på tre saker. Röd dag är en helgdag enligt lag. Ledig är en afton som inte är röd men som nästan alla har ledigt. Märkesdag är en dag som är utmärkt i almanackan utan att vara ledig, som mors dag, fars dag och lucia. Klämdag-kolumnen visar om det finns en vardag intill helgdagen som är värd att ta ledigt.</p>
+<p>Typ-kolumnen skiljer på tre saker. Röd dag är en allmän helgdag enligt lag. Ledig är en afton som inte är röd men som semesterlagen jämställer med söndag. Märkesdag är en dag som står i almanackan utan att vara ledig, som mors dag, fars dag och lucia. Klämdag-kolumnen visar om det finns en vardag intill helgdagen som är värd att ta ledigt.</p>
 <h2>Planera året</h2>
-<p>De stora chanserna återkommer varje år: fredagen efter Kristi himmelsfärdsdag är alltid en klämdag, dagarna kring påsk och jul ger långledigt för få semesterdagar, och när nationaldagen eller första maj hamnar på en tisdag eller torsdag uppstår en klämdag mitt i veckan. Kalendrarna längst ned visar hela året i ett svep med veckonummer, och varje månad går att skriva ut.</p>
+<p>Kristi himmelsfärdsdag är enligt 2 § den sjätte torsdagen efter påskdagen, så fredagen efter är alltid en klämdag. Långfredagen och annandag påsk ger alltid en fyradagarshelg, och de fyra vardagarna före långfredagen ger tio lediga dagar i rad. De dagar som har fasta datum vandrar genom veckan, så deras klämdagar kommer och går med årtalet. Kalendrarna längst ned visar hela året med veckonummer, och varje månad går att skriva ut.</p>
 """
 
 HOME = """
@@ -35,15 +35,13 @@ HOME = """
 
 HUB["klamdagar"] = """
 <h2>Vad är en klämdag?</h2>
-<p>En klämdag är en vanlig arbetsdag som ligger inklämd mellan en röd dag och en helg, eller mellan två röda dagar. Klämdagen är inte ledig i sig. Den kostar en semesterdag, en flexdag eller en kompledig dag, om inte arbetsgivaren väljer att stänga. Poängen är utväxlingen: en dag ut, fyra eller fler dagar ledigt.</p>
+<p>En klämdag är en vanlig arbetsdag som ligger inklämd mellan en röd dag och en helg, eller mellan två lediga dagar. Klämdagen är inte ledig i sig, och tar du ut den som semester kostar den en semesterdag. Poängen är utväxlingen: en dag ut, fyra eller fler dagar ledigt.</p>
 <h2>Så räknar vi</h2>
-<p>Listan ovan tar varje sammanhängande rad av arbetsdagar mellan två lediga dagar och prövar att ta en, två eller tre semesterdagar. Ett tillfälle kommer med om vinsten är minst tre lediga dagar utöver de dagar du tar ut, och om spannet innehåller en röd dag eller en afton på en vardag. Två enstaka klämdagar som bara skiljs åt av en helg slås ihop, som 2 och 5 januari när trettondedag jul ligger rätt. Lördag och söndag räknas alltid som lediga, liksom midsommarafton, julafton och nyårsafton.</p>
+<p>Listan ovan tar varje sammanhängande rad av arbetsdagar mellan två lediga dagar och prövar att ta en, två eller tre semesterdagar. Ett tillfälle kommer med om vinsten är minst tre lediga dagar utöver de dagar du tar ut, och om spannet innehåller en röd dag eller en afton på en vardag. Två enstaka klämdagar som bara skiljs åt av lediga dagar slås ihop. Tabellen för 1–20 semesterdagar prövar i stället varje möjlig period under året och väljer den längsta. Lördag och söndag räknas som lediga, liksom de röda dagarna i 1 § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/" rel="noopener">lagen om allmänna helgdagar</a> och midsommarafton, julafton och nyårsafton, som 3 a § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">semesterlagen</a> jämställer med söndag.</p>
 <h2>Klämdagar som återkommer varje år</h2>
-<p>Fredagen efter Kristi himmelsfärdsdag är den säkraste klämdagen i Sverige, eftersom helgdagen alltid ligger på en torsdag. Skärtorsdagen och dagarna före gör påsken till en tiodagarshelg för fyra semesterdagar. Mellandagarna mellan jul och nyår ger ofta elva lediga dagar för tre. Nyårsdagen, trettondedag jul, första maj, nationaldagen och juldagarna vandrar genom veckan, så deras klämdagar kommer och går med årtalet.</p>
-<h2>Vad kollektivavtalet säger</h2>
-<p>Semesterlagen ger dig rätt till minst 25 dagars semester och till fyra sammanhängande veckor under juni till augusti, men enstaka dagar under resten av året beviljas i mån av verksamhet. Vill du ha klämdagen ledig bör du be om den tidigt; på många arbetsplatser är den mer eftertraktad än en vanlig vecka i juli. En del arbetsgivare stänger helt på klämdagar och drar dagarna från semestern eller ger dem som förmån. Kontrollera vad som gäller för dig innan du bokar resan.</p>
-<h2>Halvdagar</h2>
-<p>Trettondagsafton, skärtorsdagen, valborgsmässoafton och allhelgonaafton är inte lediga enligt lag, men många kollektivavtal förkortar arbetsdagen. De syns inte i listan ovan eftersom de inte ändrar hur många hela dagar du får ut, men de gör klämdagarna kring påsk och allhelgona ännu mer värda.</p>
+<p>Kristi himmelsfärdsdag är enligt 2 § lagen om allmänna helgdagar den sjätte torsdagen efter påskdagen, så fredagen efter är en klämdag varje år: en semesterdag ger fyra dagar ledigt. Långfredagen är fredagen före påskdagen och annandag påsk dagen efter, så de fyra vardagarna före långfredagen ger tio lediga dagar i rad. Nyårsdagen, trettondedag jul, första maj, nationaldagen och juldagarna har fasta datum och vandrar genom veckan, så deras klämdagar kommer och går med årtalet.</p>
+<h2>Vem bestämmer om du får ledigt?</h2>
+<p>Ni kan komma överens om när du tar semester. Går det inte bestämmer arbetsgivaren, om inget annat avtalats (11 § semesterlagen). Om inget annat avtalats ska du få minst fyra veckor i följd under juni–augusti (12 §). Vill du ha en klämdag ledig är det därför bra att fråga i god tid.</p>
 """
 
 HUB["skollov"] = """
@@ -68,10 +66,19 @@ GROUPS["pask"] = """
 """
 
 GROUPS["midsommar"] = """
-<h2>Alltid en fredag och en lördag</h2>
-<p>Sedan 1953 firas midsommar på en helg i stället för på ett fast datum. Midsommardagen är den lördag som infaller mellan 20 och 26 juni, och midsommarafton är fredagen före, mellan 19 och 25 juni. Flytten gjordes för att alla skulle få en sammanhängande ledighet; tidigare låg midsommardagen alltid den 24 juni oavsett veckodag.</p>
-<h2>Ledigt utan semesterdagar</h2>
-<p>Midsommardagen är en röd dag men ligger alltid på en lördag, så den ger ingen extra ledighet för den som arbetar vardagar. Midsommarafton är inte en röd dag enligt lag, men den räknas som söndag i semesterlagen och nästan alla arbetsplatser har stängt. Vill du ha en längre ledighet är torsdagen före midsommarafton en klassisk klämdag: en semesterdag ger fyra dagar ledigt. Många börjar också sin sommarsemester veckan efter midsommar, då stora delar av landet går ned i varv.</p>
+<h2 id="datum">Varför midsommar flyttar sig</h2>
+<p>Enligt 2 § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/" rel="noopener">lag (1989:253) om allmänna helgdagar</a> infaller midsommardagen den lördag som infaller under tiden 20–26 juni. Midsommarafton är dagen före, alltså en fredag mellan 19 och 25 juni. Enligt <a href="https://www.nordiskamuseet.se/aretsdagar/midsommar" rel="noopener">Nordiska museet</a> var midsommaraftonens fasta datum den 23 juni fram till 1952, och från 1953 ligger den alltid på en fredag.</p>
+<h2 id="rod-dag">Är midsommarafton en röd dag?</h2>
+<p>Nej. Midsommardagen står bland de allmänna helgdagarna i 1 § lagen om allmänna helgdagar, men midsommarafton gör det inte. Däremot säger 3 a § <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">semesterlagen</a> att midsommarafton, julafton och nyårsafton jämställs med söndag. Ligger midsommarafton mitt i din semester räknas den alltså inte som en semesterdag.</p>
+<h2 id="semester">Semestern runt midsommar</h2>
+<p>Om inget annat avtalats ska du enligt 12 § semesterlagen få minst fyra veckors sammanhängande semester under juni–augusti. Eftersom midsommarafton inte kostar någon semesterdag kan det löna sig att låta ledigheten börja eller sluta vid midsommar. Tabellen ovan visar exakt hur lång ledigheten blir {y} för en till fem semesterdagar.</p>
+<h2 id="kallor">Källor</h2>
+<ul>
+<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1989253-om-allmanna-helgdagar_sfs-1989-253/" rel="noopener">Lag (1989:253) om allmänna helgdagar</a>, 1 och 2 §§, riksdagen.se.</li>
+<li><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/semesterlag-1977480_sfs-1977-480/" rel="noopener">Semesterlag (1977:480)</a>, 3 a och 12 §§, riksdagen.se.</li>
+<li><a href="https://www.nordiskamuseet.se/aretsdagar/midsommar" rel="noopener">Midsommar</a>, Nordiska museet (datumet före och efter 1953).</li>
+</ul>
+<p class="meta">Datumen i tabellerna är uträknade ur lagens regel, inte inskrivna för hand.</p>
 """
 
 GROUPS["jul"] = """
